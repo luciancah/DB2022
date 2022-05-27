@@ -5,6 +5,8 @@ import java.sql.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.*;
+import javax.swing.table.*;
 
 class Title extends JFrame{
 	SQL sql = new SQL();
@@ -115,7 +117,7 @@ class Manager extends JFrame {
 			result.setText(null);
 			error.setText(null);
 			
-			//sql.Insert(jt1.getText(), jt2.getText(), error);
+				
 		});
 		
 		button[2].addActionListener(event -> {
@@ -132,9 +134,12 @@ class Manager extends JFrame {
 class Member extends JFrame {
 	JButton button[] = new JButton[6];
 	SQL sql;
-	JTextArea result = new JTextArea();
+	Object []attribute = {"!"};
+	Object [][]value = {{"1"}};
+	DefaultTableModel model = new DefaultTableModel(value,attribute);
+	JTable total = new JTable(model);
 	boolean insert = false;
-	JScrollPane scrollPane = new JScrollPane(result);
+	JScrollPane scrollPane = new JScrollPane(total);
 
 	public Member(SQL _sql) {
 		sql = _sql;
@@ -198,27 +203,21 @@ class Member extends JFrame {
 	
 	public void buttonFunction() {
 		button[0].addActionListener(event -> {
-			result.setText(null);
 		});
 		
 		button[1].addActionListener(event -> {
-			result.setText(null);
 		});
 		
 		button[2].addActionListener(event -> {
-			result.setText(null);
 		});
 		
 		button[3].addActionListener(event -> {
-			result.setText(null);
 		});
 		
 		button[4].addActionListener(event -> {
-			result.setText(null);
 		});
 		
 		button[5].addActionListener(event -> {
-			result.setText(null);
 		});
 	}
 }
@@ -251,147 +250,199 @@ class SQL {
    public void Initialize() {
 	   try {
 		  Statement stmt=con.createStatement();
-		  stmt.executeUpdate("ALTER TABLE Patients DROP CONSTRAINT R_2;");
-	  	  stmt.executeUpdate("ALTER TABLE Patients DROP CONSTRAINT R_3;");
-	  	  stmt.executeUpdate("ALTER TABLE treatments DROP CONSTRAINT R_5;");
-	  	  stmt.executeUpdate("ALTER TABLE treatments DROP CONSTRAINT R_6;");
-	  	  stmt.executeUpdate("ALTER TABLE Charts DROP CONSTRAINT R_4;");
-	  	  stmt.executeUpdate("ALTER TABLE Charts DROP CONSTRAINT R_7;");
-	  	  
-	  	  stmt.executeUpdate("DROP TABLE doctors;");
-	  	  stmt.executeUpdate("DROP TABLE treatments;");
-	  	  stmt.executeUpdate("DROP TABLE patients;");
-	  	  stmt.executeUpdate("DROP TABLE nurses;");
-	  	  stmt.executeUpdate("DROP TABLE charts;");
-	  	  
-	  	  stmt.executeUpdate("CREATE TABLE Doctors (\r\n"
-	  	  		+ "  doc_id INTEGER NOT NULL,\r\n"
-	  	  		+ "  major_treat VARCHAR(25) NOT NULL,\r\n"
-	  	  		+ "  doc_name VARCHAR(20) NOT NULL,\r\n"
-	  	  		+ "  doc_gen VARCHAR(1) NOT NULL,\r\n"
-	  	  		+ "  doc_phone VARCHAR(15) NULL,\r\n"
-	  	  		+ "  doc_email VARCHAR(50) UNIQUE,\r\n"
-	  	  		+ "  doc_position VARCHAR(20) NOT NULL\r\n"
-	  	  		+ ");");
-	  	  stmt.executeUpdate("ALTER TABLE Doctors\r\n"
-	  	  		+ "  ADD CONSTRAINT doc_id_pk PRIMARY KEY (doc_id);");
-	  	  
-	  	  stmt.executeUpdate("CREATE TABLE Nurses (\r\n"
-	  	  		+ "  nur_id INTEGER NOT NULL,\r\n"
-	  	  		+ "  major_job VARCHAR(25) NOT NULL,\r\n"
-	  	  		+ "  nur_name VARCHAR(20) NOT NULL,\r\n"
-	  	  		+ "  nur_gen char(1) NOT NULL,\r\n"
-	  	  		+ "  nur_phone VARCHAR(15) NULL,\r\n"
-	  	  		+ "  nur_email VARCHAR(50) UNIQUE,\r\n"
-	  	  		+ "  nur_position VARCHAR(20) NOT NULL\r\n"
-	  	  		+ ");");
-	  	stmt.executeUpdate("ALTER TABLE Nurses\r\n"
-	  			+ "  ADD CONSTRAINT nur_id_pk PRIMARY KEY (nur_id);");
-	  	
-	  	stmt.executeUpdate("CREATE TABLE Patients (\r\n"
-	  			+ "  pat_id INTEGER NOT NULL,\r\n"
-	  			+ "  nur_id INTEGER NOT NULL,\r\n"
-	  			+ "  doc_id INTEGER NOT NULL,\r\n"
-	  			+ "  pat_name VARCHAR(20) NOT NULL,\r\n"
-	  			+ "  pat_gen VARCHAR(1) NOT NULL,\r\n"
-	  			+ "  pat_jumin VARCHAR(14) NOT NULL,\r\n"
-	  			+ "  pat_addr VARCHAR(100) NOT NULL,\r\n"
-	  			+ "  pat_phone VARCHAR(15) NULL,\r\n"
-	  			+ "  pat_email VARCHAR(50) UNIQUE,\r\n"
-	  			+ "  pat_job VARCHAR(20) NOT NULL\r\n"
-	  			+ ");");
-	  	stmt.executeUpdate("ALTER TABLE Patients\r\n"
-	  			+ "  ADD CONSTRAINT pat_id_pk PRIMARY KEY (pat_id);");
-	  	stmt.executeUpdate("ALTER TABLE Patients\r\n"
-	  			+ "  ADD (CONSTRAINT R_2 FOREIGN KEY (doc_id) REFERENCES Doctors (doc_id));");
-	  	stmt.executeUpdate("ALTER TABLE Patients\r\n"
-	  			+ "  ADD (CONSTRAINT R_3 FOREIGN KEY (nur_id) REFERENCES Nurses (nur_id));");
-	  	
-	  	stmt.executeUpdate("CREATE TABLE Treatments (\r\n"
-	  			+ "  treat_id INTEGER NOT NULL,\r\n"
-	  			+ "  pat_id INTEGER NOT NULL,\r\n"
-	  			+ "  doc_id INTEGER NOT NULL,\r\n"
-	  			+ "  treat_contents VARCHAR(1000) NOT NULL,\r\n"
-	  			+ "  treat_date DATE NOT NULL\r\n"
-	  			+ ");");
-	  	stmt.executeUpdate("ALTER TABLE Treatments\r\n"
-	  			+ "  ADD CONSTRAINT treat_pat_doc_id_pk PRIMARY KEY (treat_id, pat_id, doc_id);");
-	  	stmt.executeUpdate("ALTER TABLE Treatments\r\n"
-	  			+ "  ADD (CONSTRAINT R_5 FOREIGN KEY (pat_id) REFERENCES Patients (pat_id));");
-	  	stmt.executeUpdate("ALTER TABLE Treatments\r\n"
-	  			+ "  ADD (CONSTRAINT R_6 FOREIGN KEY (doc_id) REFERENCES Doctors (doc_id));");
-	  	
-	  	stmt.executeUpdate("CREATE TABLE Charts (\r\n"
-	  			+ "  chart_id VARCHAR(20) NOT NULL,\r\n"
-	  			+ "  treat_id INTEGER NOT NULL,\r\n"
-	  			+ "  doc_id INTEGER NOT NULL,\r\n"
-	  			+ "  pat_id INTEGER NOT NULL,\r\n"
-	  			+ "  nur_id INTEGER NOT NULL,\r\n"
-	  			+ "  chart_contents VARCHAR(1000) NOT NULL\r\n"
-	  			+ ");");
-	  	stmt.executeUpdate("ALTER TABLE Charts\r\n"
-	  			+ "  ADD CONSTRAINT chart_treat_doc_pat_id_pk PRIMARY KEY (chart_id, treat_id, doc_id, pat_id);");
-	  	stmt.executeUpdate("ALTER TABLE Charts\r\n"
-	  			+ "  ADD (CONSTRAINT R_4 FOREIGN KEY (nur_id) REFERENCES Nurses (nur_id));");
-	  	stmt.executeUpdate("ALTER TABLE Charts\r\n"
-	  			+ "  ADD (CONSTRAINT R_7 FOREIGN KEY (treat_id, pat_id, doc_id) REFERENCES Treatments (treat_id, pat_id, doc_id));");
-	  	
-	  	stmt.executeUpdate("INSERT INTO Doctors VALUES(980312, '소아과', '이태정', 'M', '010-333-1340', 'ltj@hanbit.com', '과장');");
-	  	stmt.executeUpdate("INSERT INTO Doctors VALUES(000601, '내과', '안성기', 'M', '011-222-0987', 'ask@hanbit.com', '과장');");
-	  	stmt.executeUpdate("INSERT INTO Doctors VALUES(001208, '외과', '김민종', 'M', '010-333-8743', 'kmj@hanbit.com', '과장');");
-	  	stmt.executeUpdate("INSERT INTO Doctors VALUES(020403, '피부과', '이태서', 'M', '019-777-3764', 'lts@hanbit.com', '과장');");
-	  	stmt.executeUpdate("INSERT INTO Doctors VALUES(050900, '소아과', '김연아', 'F', '010-555-3746', 'kya@hanbit.com', '전문의');");
-	  	stmt.executeUpdate("INSERT INTO Doctors VALUES(050101, '내과', '차태현', 'M', '011-222-7643', 'cth@hanbit.com', '전문의');");
-	  	stmt.executeUpdate("INSERT INTO Doctors VALUES(062019, '소아과', '전지현', 'F', '010-999-1265', 'jjh@hanbit.com', '전문의');");
-	  	stmt.executeUpdate("INSERT INTO Doctors VALUES(070576, '피부과', '홍길동', 'M', '016-333-7263', 'hgd@hanbit.com', '전문의');");
-	  	stmt.executeUpdate("INSERT INTO Doctors VALUES(080543, '방사선과', '유재석', 'M', '010-222-1263', 'yjs@hanbit.com', '과장');");
-	  	stmt.executeUpdate("INSERT INTO Doctors VALUES(091001, '외과', '김병만', 'M', '010-555-3542', 'kbm@hanbit.com', '전문의');");
-	  	
-	  	stmt.executeUpdate("INSERT INTO Nurses VALUES(050302, '소아과', '김은영', 'F', '010-555-8751', 'key@hanbit.com', '수간호사');");
-	  	stmt.executeUpdate("INSERT INTO Nurses VALUES(050021, '내과', '윤성애', 'F', '016-333-8745', 'ysa@hanbit.com', '수간호사');");
-	  	stmt.executeUpdate("INSERT INTO Nurses VALUES(040089, '피부과', '신지원', 'M', '010-666-7646', 'sjw@hanbit.com', '주임');");
-	  	stmt.executeUpdate("INSERT INTO Nurses VALUES(070605, '방사선과', '유정화', 'F', '010-333-4588', 'yjh@hanbit.com', '주임');");
-	  	stmt.executeUpdate("INSERT INTO Nurses VALUES(070804, '내과', '라하나', 'F', '010-222-1340', 'nhn@hanbit.com', '주임');");
-	  	stmt.executeUpdate("INSERT INTO Nurses VALUES(071018, '소아과', '김화경', 'F', '019-888-4116', 'khk@hanbit.com', '주임');");
-	  	stmt.executeUpdate("INSERT INTO Nurses VALUES(100356, '소아과', '이선용', 'M', '010-777-1234', 'lsy@hanbit.com', '간호사');");
-	  	stmt.executeUpdate("INSERT INTO Nurses VALUES(104145, '외과', '김현', 'M', '010-999-8520', 'kh@hanbit.com', '간호사');");
-	  	stmt.executeUpdate("INSERT INTO Nurses VALUES(120309, '피부과', '박성완', 'M', '010-777-4996', 'psw@hanbit.com', '간호사');");
-	  	stmt.executeUpdate("INSERT INTO Nurses VALUES(130211, '외과', '이서연', 'F', '010-222-3214', 'lsy2@hanbit.com', '간호사');");
-	  	
-	  	stmt.executeUpdate("INSERT INTO Patients VALUES(2345, 050302, 980312, '안상건', 'M', 232345, '서울', '010-555-7845', 'ask@ab.com', '회사원');");
-	  	stmt.executeUpdate("INSERT INTO Patients VALUES(3545, 040089, 020403, '김성룡', 'M', 543545, '서울', '010-333-7812', 'ksn@bb.com', '자영업');");
-	  	stmt.executeUpdate("INSERT INTO Patients VALUES(3424, 070605, 080543, '이종진', 'M', 433424, '부산', '010-888-4859', 'ljj@ab.com', '회사원');");
-	  	stmt.executeUpdate("INSERT INTO Patients VALUES(7675, 100356, 050900, '최광석', 'M', 677675, '당진', '010-222-4847', 'cks@cc.com', '회사원');");
-	  	stmt.executeUpdate("INSERT INTO Patients VALUES(4533, 070804, 000601, '정한경', 'M', 744533, '강릉', '010-777-9630', 'jhk@ab.com', '교수');");
-	  	stmt.executeUpdate("INSERT INTO Patients VALUES(5546, 120309, 070576, '유원현', 'M', 765546, '대구', '016-777-0214', 'ywh@cc.com', '자영업');");
-	  	stmt.executeUpdate("INSERT INTO Patients VALUES(4543, 070804, 050101, '최재정', 'M', 454543, '부산', '010-555-4187', 'cjj@bb.com', '회사원');");
-	  	stmt.executeUpdate("INSERT INTO Patients VALUES(9768, 130211, 091001, '이진희', 'F', 119768, '서울', '010-888-3675', 'ljh@ab.com', '교수');");
-	  	stmt.executeUpdate("INSERT INTO Patients VALUES(4234, 130211, 091001, '오나미', 'F', 234234, '속초', '010-999-6541', 'onm@cc.com', '학생');");
-	  	stmt.executeUpdate("INSERT INTO Patients VALUES(7643, 071018, 062019, '송석묵', 'M', 987643, '서울', '010-222-5874', 'ssm@bb.com', '학생');");
-	  	
-	  	stmt.executeUpdate("INSERT INTO Treatments VALUES(130516023, 2345, 980312, '감기, 몸살', STR_TO_DATE('2013-05-16','%Y-%m-%d'));");
-	  	stmt.executeUpdate("INSERT INTO Treatments VALUES(130628100, 3545, 020403, '피부 트러블 치료', STR_TO_DATE('2013-06-28','%Y-%m-%d'));");
-	  	stmt.executeUpdate("INSERT INTO Treatments VALUES(131205056, 3424, 080543, '목 디스크로 MRI 촬영', STR_TO_DATE('2013-12-05','%Y-%m-%d'));");
-	  	stmt.executeUpdate("INSERT INTO Treatments VALUES(131218024, 7675, 050900, '중이염', STR_TO_DATE('2013-12-18','%Y-%m-%d'));");
-	  	stmt.executeUpdate("INSERT INTO Treatments VALUES(131224012, 4533, 000601, '장염', STR_TO_DATE('2013-12-24','%Y-%m-%d'));");
-	  	stmt.executeUpdate("INSERT INTO Treatments VALUES(140103001, 5546, 070576, '여드름 치료', STR_TO_DATE('2014-01-03','%Y-%m-%d'));");
-	  	stmt.executeUpdate("INSERT INTO Treatments VALUES(140109026, 4543, 050101, '위염', STR_TO_DATE('2014-01-09','%Y-%m-%d'));");
-	  	stmt.executeUpdate("INSERT INTO Treatments VALUES(140226102, 9768, 091001, '화상치료', STR_TO_DATE('2014-02-26','%Y-%m-%d'));");
-	  	stmt.executeUpdate("INSERT INTO Treatments VALUES(140303003, 4234, 091001, '교통사고 외상치료', STR_TO_DATE('2014-03-03','%Y-%m-%d'));");
-	  	stmt.executeUpdate("INSERT INTO Treatments VALUES(140308087, 7643, 062019, '장염', STR_TO_DATE('2014-03-08','%Y-%m-%d'));");
-	  	
-	  	stmt.executeUpdate("INSERT INTO Charts VALUES('PD13572410', 130516023, 980312, 2345, 050302, '편도선, 감기약 처방');");
-	  	stmt.executeUpdate("INSERT INTO Charts VALUES('DM11389132', 130628100, 020403, 3545, 040089, '피부약 처방');");
-	  	stmt.executeUpdate("INSERT INTO Charts VALUES('RD10023842', 131205056, 080543, 3424, 070605, '목 디스크 의심, 추가 검사 필요');");
-	  	stmt.executeUpdate("INSERT INTO Charts VALUES('PD13581241', 131218024, 050900, 7675, 100356, '세반고리관 추가 검사 필요');");
-	  	stmt.executeUpdate("INSERT INTO Charts VALUES('IM12557901', 131224012, 000601, 4533, 070804, '위장약 처방');");
-	  	stmt.executeUpdate("INSERT INTO Charts VALUES('DM11400021', 140103001, 070576, 5546, 120309, '여드름 치료제 처방');");
-	  	stmt.executeUpdate("INSERT INTO Charts VALUES('IM12708224', 140109026, 050101, 4543, 070804, '위염 심각, 추가 검사 후 수술 권함');");
-	  	
-	  	stmt.executeUpdate("INSERT INTO Charts VALUES('GS17223681', 140226102, 091001, 9768, 130211, '화상약 처방 및 물리치료');");
-	  	stmt.executeUpdate("INSERT INTO Charts VALUES('GS17264430', 140303003, 091001, 4234, 130211, '추가 성형수술 필요함');");
-	  	stmt.executeUpdate("INSERT INTO Charts VALUES('PD13664611', 140308087, 062019, 7643, 071018, '장염약 처방');");
-	  	
+		  stmt.executeUpdate("drop table if exists tickets;");
+		  stmt.executeUpdate("drop table if exists movie_schedule;");
+		  stmt.executeUpdate("drop table if exists seats;");
+		  stmt.executeUpdate("drop table if exists booking;");
+		  stmt.executeUpdate("drop table if exists screens;");
+		  stmt.executeUpdate("drop table if exists members;");
+		  stmt.executeUpdate("drop table if exists movies;");
+
+		  stmt.executeUpdate("CREATE TABLE IF NOT EXISTS `movie_book`.`movies` (\r\n"
+		  		+ "  `movie_id` INT NOT NULL,\r\n"
+		  		+ "  `movie_title` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `running_time` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `movie_rating` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `director` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `actor` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `genre` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `movie_introduction` TEXT NOT NULL,\r\n"
+		  		+ "  `release_date` DATE NOT NULL,\r\n"
+		  		+ "  PRIMARY KEY (`movie_id`))\r\n"
+		  		+ "ENGINE = InnoDB;");
+		  stmt.executeUpdate("CREATE TABLE IF NOT EXISTS `movie_book`.`screens` (\r\n"
+		  		+ "  `screen_id` INT NOT NULL,\r\n"
+		  		+ "  `seats` INT NOT NULL,\r\n"
+		  		+ "  `is_available` TINYINT NOT NULL DEFAULT 0,\r\n"
+		  		+ "  PRIMARY KEY (`screen_id`))\r\n"
+		  		+ "ENGINE = InnoDB;");
+		  stmt.executeUpdate("CREATE TABLE IF NOT EXISTS `movie_book`.`movie_schedule` (\r\n"
+		  		+ "  `movie_schedule_id` INT NOT NULL,\r\n"
+		  		+ "  `movie_id` INT NOT NULL,\r\n"
+		  		+ "  `screen_id` INT NOT NULL,\r\n"
+		  		+ "  `screening_start_date` DATE NOT NULL,\r\n"
+		  		+ "  `screening_day` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `screening_round` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `screening_start_time` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  PRIMARY KEY (`movie_schedule_id`, `screen_id`, `movie_id`),\r\n"
+		  		+ "  INDEX `fk_movie_schedule_movies1_idx` (`movie_id` ASC) VISIBLE,\r\n"
+		  		+ "  INDEX `fk_movie_schedule_screens1_idx` (`screen_id` ASC) VISIBLE,\r\n"
+		  		+ "  CONSTRAINT `fk_movie_schedule_movies1`\r\n"
+		  		+ "    FOREIGN KEY (`movie_id`)\r\n"
+		  		+ "    REFERENCES `movie_book`.`movies` (`movie_id`)\r\n"
+		  		+ "    ON DELETE NO ACTION\r\n"
+		  		+ "    ON UPDATE NO ACTION,\r\n"
+		  		+ "  CONSTRAINT `fk_movie_schedule_screens1`\r\n"
+		  		+ "    FOREIGN KEY (`screen_id`)\r\n"
+		  		+ "    REFERENCES `movie_book`.`screens` (`screen_id`)\r\n"
+		  		+ "    ON DELETE NO ACTION\r\n"
+		  		+ "    ON UPDATE NO ACTION)\r\n"
+		  		+ "ENGINE = InnoDB;");
+		  stmt.executeUpdate("CREATE TABLE IF NOT EXISTS `movie_book`.`seats` (\r\n"
+		  		+ "  `seat_id` INT NOT NULL,\r\n"
+		  		+ "  `screen_id` INT NOT NULL,\r\n"
+		  		+ "  `is_available` TINYINT NOT NULL DEFAULT 0,\r\n"
+		  		+ "  PRIMARY KEY (`seat_id`, `screen_id`),\r\n"
+		  		+ "  INDEX `fk_seats_screens1_idx` (`screen_id` ASC) VISIBLE,\r\n"
+		  		+ "  CONSTRAINT `fk_seats_screens1`\r\n"
+		  		+ "    FOREIGN KEY (`screen_id`)\r\n"
+		  		+ "    REFERENCES `movie_book`.`screens` (`screen_id`)\r\n"
+		  		+ "    ON DELETE NO ACTION\r\n"
+		  		+ "    ON UPDATE NO ACTION)\r\n"
+		  		+ "ENGINE = InnoDB;");
+		  stmt.executeUpdate("CREATE TABLE IF NOT EXISTS `movie_book`.`members` (\r\n"
+		  		+ "  `member_id` INT NOT NULL,\r\n"
+		  		+ "  `name` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `phone` VARCHAR(45) NULL,\r\n"
+		  		+ "  `email` VARCHAR(45) NULL,\r\n"
+		  		+ "  PRIMARY KEY (`member_id`))\r\n"
+		  		+ "ENGINE = InnoDB;");
+		  stmt.executeUpdate("CREATE TABLE IF NOT EXISTS `movie_book`.`booking` (\r\n"
+		  		+ "  `booking_id` INT NOT NULL,\r\n"
+		  		+ "  `member_id` INT NOT NULL,\r\n"
+		  		+ "  `pay_method` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `pay_statement` TINYINT NOT NULL,\r\n"
+		  		+ "  `price` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  PRIMARY KEY (`booking_id`, `member_id`),\r\n"
+		  		+ "  INDEX `fk_booking_members1_idx` (`member_id` ASC) VISIBLE,\r\n"
+		  		+ "  CONSTRAINT `fk_booking_members1`\r\n"
+		  		+ "    FOREIGN KEY (`member_id`)\r\n"
+		  		+ "    REFERENCES `movie_book`.`members` (`member_id`)\r\n"
+		  		+ "    ON DELETE NO ACTION\r\n"
+		  		+ "    ON UPDATE NO ACTION)\r\n"
+		  		+ "ENGINE = InnoDB;");
+		  stmt.executeUpdate("CREATE TABLE IF NOT EXISTS `movie_book`.`tickets` (\r\n"
+		  		+ "  `ticket_id` INT NOT NULL,\r\n"
+		  		+ "  `movie_schedule_id` INT NOT NULL,\r\n"
+		  		+ "  `screen_id` INT NOT NULL,\r\n"
+		  		+ "  `seat_id` INT NOT NULL,\r\n"
+		  		+ "  `booking_id` INT NOT NULL,\r\n"
+		  		+ "  `is_ticket_printed` TINYINT NOT NULL DEFAULT 0,\r\n"
+		  		+ "  `standard_price` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  `selling_price` VARCHAR(45) NOT NULL,\r\n"
+		  		+ "  PRIMARY KEY (`ticket_id`, `movie_schedule_id`, `seat_id`, `screen_id`, `booking_id`),\r\n"
+		  		+ "  INDEX `fk_tickets_movie_schedule1_idx` (`movie_schedule_id` ASC) VISIBLE,\r\n"
+		  		+ "  INDEX `fk_tickets_seats1_idx` (`seat_id` ASC) VISIBLE,\r\n"
+		  		+ "  INDEX `fk_tickets_booking1_idx` (`booking_id` ASC) VISIBLE,\r\n"
+		  		+ "  INDEX `fk_tickets_screens1_idx` (`screen_id` ASC) VISIBLE,\r\n"
+		  		+ "  CONSTRAINT `fk_tickets_movie_schedule1`\r\n"
+		  		+ "    FOREIGN KEY (`movie_schedule_id`)\r\n"
+		  		+ "    REFERENCES `movie_book`.`movie_schedule` (`movie_schedule_id`)\r\n"
+		  		+ "    ON DELETE NO ACTION\r\n"
+		  		+ "    ON UPDATE NO ACTION,\r\n"
+		  		+ "  CONSTRAINT `fk_tickets_seats1`\r\n"
+		  		+ "    FOREIGN KEY (`seat_id`)\r\n"
+		  		+ "    REFERENCES `movie_book`.`seats` (`seat_id`)\r\n"
+		  		+ "    ON DELETE NO ACTION\r\n"
+		  		+ "    ON UPDATE NO ACTION,\r\n"
+		  		+ "  CONSTRAINT `fk_tickets_booking1`\r\n"
+		  		+ "    FOREIGN KEY (`booking_id`)\r\n"
+		  		+ "    REFERENCES `movie_book`.`booking` (`booking_id`)\r\n"
+		  		+ "    ON DELETE NO ACTION\r\n"
+		  		+ "    ON UPDATE NO ACTION,\r\n"
+		  		+ "  CONSTRAINT `fk_tickets_screens1`\r\n"
+		  		+ "    FOREIGN KEY (`screen_id`)\r\n"
+		  		+ "    REFERENCES `movie_book`.`screens` (`screen_id`)\r\n"
+		  		+ "    ON DELETE NO ACTION\r\n"
+		  		+ "    ON UPDATE NO ACTION)\r\n"
+		  		+ "ENGINE = InnoDB;");
+
+		  stmt.executeUpdate("INSERT INTO movies VALUES(1, '닥터 스트레인지', '2시간 20분', '15세', '조민수', '서진형', '판타지', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-01-09','%Y-%m-%d'));");
+		  stmt.executeUpdate("INSERT INTO movies VALUES(2, '범죄도시1', '2시간 21분', '18세', '조민수', '이진형', '스릴러', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-02-09','%Y-%m-%d'));");
+		  stmt.executeUpdate("INSERT INTO movies VALUES(3, '범죄도시3', '2시간 22분', '12세', '최민수', '국진형', '호러', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-03-09','%Y-%m-%d'));");
+		  stmt.executeUpdate("INSERT INTO movies VALUES(4, '범죄도시4', '2시간 23분', '18세', '박민수', '오진형', '코미디', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-04-09','%Y-%m-%d'));");
+		  stmt.executeUpdate("INSERT INTO movies VALUES(5, '범죄도시5', '2시간 24분', '15세', '김민수','임진형', '호러', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-05-09','%Y-%m-%d'));");
+		  stmt.executeUpdate("INSERT INTO movies VALUES(6, '범죄도시6', '2시간 25분', '12세', '임민수', '김진형', '로맨스', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-06-09','%Y-%m-%d'));");
+		  stmt.executeUpdate("INSERT INTO movies VALUES(7, '범죄도시6', '2시간 26분', '전체이용가', '오민수', '박진형', '판타지', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-07-09','%Y-%m-%d'));");
+		  stmt.executeUpdate("INSERT INTO movies VALUES(8, '범죄도시7', '2시간 27분', '15세', '국민수', '최진형', '액션', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-08-09','%Y-%m-%d'));");
+		  stmt.executeUpdate("INSERT INTO movies VALUES(9, '범죄도시8', '2시간 28분', '18세', '이민수', '조진형', '스릴러', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-09-09','%Y-%m-%d'));");
+		  stmt.executeUpdate("INSERT INTO movies VALUES(10, '범죄도시2', '2시간 29분', '15세', '서민수', '리진형', '액션', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-10-09','%Y-%m-%d'));");
+
+		  stmt.executeUpdate("insert into members values (1, 'Brooke', '735-214-8098', 'bmarlon0@constantcontact.com');");
+		  stmt.executeUpdate("insert into members values (2, 'Martita', '964-716-5566', 'mbusk1@printfriendly.com');");
+		  stmt.executeUpdate("insert into members values (3, 'Eziechiele', '768-705-1335', 'evan2@miitbeian.gov.cn');");
+		  stmt.executeUpdate("insert into members values (4, 'Pacorro', '212-772-9242', 'phovard3@oracle.com');");
+		  stmt.executeUpdate("insert into members values (5, 'Cori', '400-461-8374', 'caburrow4@163.com');");
+		  stmt.executeUpdate("insert into members values (6, 'Ahmad', '555-584-2230', 'aparram5@yandex.ru');");
+		  stmt.executeUpdate("insert into members values (7, 'Elliot', '550-149-1193', 'egiacubo6@elpais.com');");
+		  stmt.executeUpdate("insert into members values (8, 'Barret', '432-886-2071', 'bleathwood7@cisco.com');");
+		  stmt.executeUpdate("insert into members values (9, 'Ranique', '445-800-0015', 'rculter8@scientificamerican.com');");
+		  stmt.executeUpdate("insert into members values (10, 'Jaclyn', '585-410-7043', 'jbouchier9@unesco.org');");
+
+		  stmt.executeUpdate("insert into screens values (1, 500, 1);");
+		  stmt.executeUpdate("insert into screens values (2, 250, 1);");
+		  stmt.executeUpdate("insert into screens values (3, 500, 1);");
+		  stmt.executeUpdate("insert into screens values (4, 650, 1);");
+		  stmt.executeUpdate("insert into screens values (5, 200, 0);");
+		  stmt.executeUpdate("insert into screens values (6, 155, 1);");
+		  stmt.executeUpdate("insert into screens values (7, 140, 1);");
+		  stmt.executeUpdate("insert into screens values (8, 124, 1);");
+		  stmt.executeUpdate("insert into screens values (9, 450, 1);");
+		  stmt.executeUpdate("insert into screens values (10, 123, 1);");
+		  
+		  stmt.executeUpdate("insert into seats values (1, 1, 1);");
+		  stmt.executeUpdate("insert into seats values (2, 2, 1);");
+		  stmt.executeUpdate("insert into seats values (3, 3, 0);");
+		  stmt.executeUpdate("insert into seats values (4, 4, 1);");
+		  stmt.executeUpdate("insert into seats values (5, 5, 0);");
+		  stmt.executeUpdate("insert into seats values (6, 6, 1);");
+		  stmt.executeUpdate("insert into seats values (7, 7, 0);");
+		  stmt.executeUpdate("insert into seats values (8, 8, 1);");
+		  stmt.executeUpdate("insert into seats values (9, 2, 0);");
+		  stmt.executeUpdate("insert into seats values (10, 4, 0);");
+
+		  stmt.executeUpdate("insert into movie_schedule values(1, 1, 1, STR_TO_DATE('2021-01-09','%Y-%m-%d'), '월요일', '1회차', '09시 15분');");
+		  stmt.executeUpdate("insert into movie_schedule values(2, 2, 2, STR_TO_DATE('2021-02-09','%Y-%m-%d'), '화요일', '2회차', '10시 15분');");
+		  stmt.executeUpdate("insert into movie_schedule values(3, 3, 3, STR_TO_DATE('2021-03-09','%Y-%m-%d'), '수요일', '2회차', '11시 15분');");
+		  stmt.executeUpdate("insert into movie_schedule values(4, 4, 4, STR_TO_DATE('2021-04-09','%Y-%m-%d'), '목요일', '3회차', '10시 15분');");
+		  stmt.executeUpdate("insert into movie_schedule values(5, 5, 5, STR_TO_DATE('2021-05-09','%Y-%m-%d'), '금요일', '5회차', '18시 15분');");
+		  stmt.executeUpdate("insert into movie_schedule values(6, 6, 6, STR_TO_DATE('2021-06-09','%Y-%m-%d'), '월요일', '2회차', '10시 15분');");
+		  stmt.executeUpdate("insert into movie_schedule values(7, 7, 7, STR_TO_DATE('2021-07-09','%Y-%m-%d'), '월요일', '7회차', '22시 15분');");
+		  stmt.executeUpdate("insert into movie_schedule values(8, 8, 8, STR_TO_DATE('2021-08-09','%Y-%m-%d'), '수요일', '2회차', '11시 15분');");
+		  stmt.executeUpdate("insert into movie_schedule values(9, 9, 9, STR_TO_DATE('2021-09-09','%Y-%m-%d'), '금요일', '4회차', '13시 15분');");
+		  stmt.executeUpdate("insert into movie_schedule values(10, 10, 10, STR_TO_DATE('2021-10-09','%Y-%m-%d'), '일요일', '1회차', '09시 15분');");
+
+		  stmt.executeUpdate("insert into booking values(1, 1, '카드', 1, '14,000원');");
+		  stmt.executeUpdate("insert into booking values(2, 2, '카드', 1, '12,000원');");
+		  stmt.executeUpdate("insert into booking values(3, 3, '현금', 1, '14,000원');");
+		  stmt.executeUpdate("insert into booking values(4, 4, '카드', 1, '12,000원');");
+		  stmt.executeUpdate("insert into booking values(5, 5, '현금', 1, '14,000원');");
+		  stmt.executeUpdate("insert into booking values(6, 6, '카드', 1, '13,000원');");
+		  stmt.executeUpdate("insert into booking values(7, 7, '무통장', 0, '14,000원');");
+		  stmt.executeUpdate("insert into booking values(8, 8, '현금', 1, '14,000원');");
+		  stmt.executeUpdate("insert into booking values(9, 9, '현금', 1, '12,000원');");
+		  stmt.executeUpdate("insert into booking values(10, 10, '카드', 1, '14,000원');");
+		  
+		  stmt.executeUpdate("insert into tickets values(1, 1, 1, 1, 1, 1, '14,000원', '14,000원');");
+		  stmt.executeUpdate("insert into tickets values(2, 2, 2, 2, 2, 2, '12,000원', '12,000원');");
+		  stmt.executeUpdate("insert into tickets values(3, 3, 3, 3, 3, 3, '14,000원', '14,000원');");
+		  stmt.executeUpdate("insert into tickets values(4, 4, 4, 4, 4, 4, '14,000원', '13,000원');");
+		  stmt.executeUpdate("insert into tickets values(5, 5, 5, 5, 5, 5, '14,000원', '13,000원');");
+		  stmt.executeUpdate("insert into tickets values(6, 6, 6, 6, 6, 6, '12,000원', '12,000원');");
+		  stmt.executeUpdate("insert into tickets values(7, 7, 7, 7, 7, 7, '14,000원', '14,000원');");
+		  stmt.executeUpdate("insert into tickets values(8, 8, 8, 8, 8, 8, '13,000원', '11,000원');");
+		  stmt.executeUpdate("insert into tickets values(9, 9, 9, 9, 9, 9, '14,000원', '14,000원');");
+		  stmt.executeUpdate("insert into tickets values(10, 10, 10, 10, 10, 10, '14,000원', '11,000원');");
 	     } catch(SQLException e) {
 	         e.printStackTrace();
 	       }
@@ -412,22 +463,25 @@ class SQL {
    }
    
    public void AllSearch(JTextArea resultLabel) {
-	   resultLabel.append("\t\tdoc_id \tmajor_treat \t\tdoc_name \t\tdoc_gen \t\tdoc_phone \t\tdoc_email\t\tdoc_position \n");
+	   
+	   resultLabel.append("\t\tmovie_id \tmovie_title \t\trunning_time \t\tmovie_rating \t\tdirector \t\tactor\t\tgenre \t movie_introduction \t release_date\n");
 	   
 	   try {
-	  	  	 Statement stmt=con.createStatement();
-	  	  	 ResultSet rs=stmt.executeQuery("select * from Doctors");
+		   Statement stmt=con.createStatement();
+	  	  	 ResultSet rs=stmt.executeQuery("select * from movies");
 	  	  	 int i=1;
 	  	  	 
 	  	  	 while(rs.next()) {
 	  	  		resultLabel.append(i++ + "\t");
-	  	  		resultLabel.append("\t"+String.format("%06d",rs.getInt(1)));
+	  	  		resultLabel.append("\t"+rs.getInt(1));
 	  	  		resultLabel.append("\t"+rs.getString(2));
 	  	  		resultLabel.append("\t\t"+rs.getString(3));
 	  	  		resultLabel.append("\t\t"+rs.getString(4));
 	  	  		resultLabel.append("\t\t"+rs.getString(5));
 	  	  		resultLabel.append("\t\t"+rs.getString(6));
-	  	  		resultLabel.append("\t"+rs.getString(7)+"\n");
+	  	  		resultLabel.append("\t\t"+rs.getString(7));
+	  	  		resultLabel.append("\t\t"+rs.getString(8));
+	  	  		resultLabel.append("\t"+rs.getString(9)+"\n");
 	  	  	 }
 	  	  } catch(SQLException e) {
 	  	  	   e.printStackTrace();
@@ -435,20 +489,37 @@ class SQL {
 	   resultLabel.append("\n");
 	   
 	   try {
-	  	 Statement stmt=con.createStatement();
-	  	 ResultSet rs=stmt.executeQuery("select * from Nurses");
+		   Statement stmt=con.createStatement();
+		  	 ResultSet rs=stmt.executeQuery("select * from movie_schedule");
+		  	 int i=1;
+		  	 
+		  	 resultLabel.append("\t\tmovie_schedule_id \tmovie_id \tscreen_id \tscreening_start_date \t\tscreening_day \t\tscreening_round \t\tscreening_start_time\n");
+		  	 while(rs.next()) {
+		  		resultLabel.append(i++ + "\t");
+		  		resultLabel.append("\t"+rs.getObject(1));
+		  		resultLabel.append("\t"+rs.getObject(2));
+		  		resultLabel.append("\t"+rs.getObject(3));
+		  		resultLabel.append("\t"+rs.getObject(4));
+		  		resultLabel.append("\t\t"+rs.getObject(5));
+		  		resultLabel.append("\t\t"+rs.getObject(6));
+		  		resultLabel.append("\t\t"+rs.getObject(7)+"\n");
+		  	 }
+		  } catch(SQLException e) {
+		  	   e.printStackTrace();
+		    }
+	   resultLabel.append("\n");
+		   
+	   try {
+		   Statement stmt=con.createStatement();
+	  	 ResultSet rs=stmt.executeQuery("select * from screens");
 	  	 int i=1;
 	  	 
-	  	 resultLabel.append("\t\tnur_id \tmajor_job \t\tnur_name \t\tnur_gen \t\tnur_phone \t\tnur_email \t\tnur_position\n");
+	  	 resultLabel.append("\t\tscreen_id \tseats \t\tis_available\n");
 	  	 while(rs.next()) {
 	  		resultLabel.append(i++ + "\t");
 	  		resultLabel.append("\t"+String.format("%06d",rs.getInt(1)));
-	  		resultLabel.append("\t"+rs.getString(2));
-	  		resultLabel.append("\t\t"+rs.getString(3));
-	  		resultLabel.append("\t\t"+rs.getString(4));
-	  		resultLabel.append("\t\t"+rs.getString(5));
-	  		resultLabel.append("\t\t"+rs.getString(6));
-	  		resultLabel.append("\t"+rs.getString(7)+"\n");
+	  		resultLabel.append("\t"+rs.getInt(2));
+	  		resultLabel.append("\t\t"+rs.getInt(3)+"\n");
 	  	 }
 	   } catch(SQLException e) {
 	  	   e.printStackTrace();
@@ -456,42 +527,21 @@ class SQL {
 	   resultLabel.append("\n");
    
 	   try {
-	  	 Statement stmt=con.createStatement();
-	  	 ResultSet rs=stmt.executeQuery("select * from Patients");
+		   Statement stmt=con.createStatement();
+	  	 ResultSet rs=stmt.executeQuery("select * from tickets");
 	  	 int i=1;
 	  	 
-	  	 resultLabel.append("\t\tpat_id \tnur_id \tdoc_id \tpat_name \t\tpat_gen \t\tpat_jumin \t\tpat_addr \t\tpat_phone \t\tpat_email \t\tpat_job\n");
+	  	 resultLabel.append("\t\tticket_id \tmovie_schedule_id \tscreen_id \tseat_id \t\tbooking_id \t is_ticket_printed \t standard_price \t selling_price\n");
 	  	 while(rs.next()) {
 	  		resultLabel.append(i++ + "\t");
-	  		resultLabel.append("\t"+rs.getInt(1));
-	  		resultLabel.append("\t"+String.format("%06d",rs.getInt(2)));
-	  		resultLabel.append("\t"+rs.getInt(3));
-	  		resultLabel.append("\t"+rs.getString(4));
-	  		resultLabel.append("\t\t"+rs.getString(5));
-	  		resultLabel.append("\t\t"+rs.getString(6));
-	  		resultLabel.append("\t\t"+rs.getString(7));
-	  		resultLabel.append("\t\t"+rs.getString(8));
-	  		resultLabel.append("\t\t"+rs.getString(9));
-	  		resultLabel.append("\t\t"+rs.getString(10)+"\n");
-	  	 }
-	  } catch(SQLException e) {
-	  	   e.printStackTrace();
-	    }
-	   resultLabel.append("\n");
-   
-	   try {
-	  	 Statement stmt=con.createStatement();
-	  	 ResultSet rs=stmt.executeQuery("select * from Treatments");
-	  	 int i=1;
-	  	 
-	  	 resultLabel.append("\t\ttreat_id \tpat_id \tdoc_id \ttreat_contents \t\ttreat_date\n");
-	  	 while(rs.next()) {
-	  		resultLabel.append(i++ + "\t");
-	  		resultLabel.append("\t"+rs.getInt(1));
-	  		resultLabel.append("\t"+rs.getInt(2));
-	  		resultLabel.append("\t"+String.format("%06d",rs.getInt(3)));
-	  		resultLabel.append("\t"+rs.getString(4));
-	  		resultLabel.append("\t\t"+rs.getString(5)+"\n");
+	  		resultLabel.append("\t"+rs.getObject(1));
+	  		resultLabel.append("\t"+rs.getObject(2));
+	  		resultLabel.append("\t"+rs.getObject(3));
+	  		resultLabel.append("\t"+rs.getObject(4));
+	  		resultLabel.append("\t"+rs.getObject(5));
+	  		resultLabel.append("\t"+rs.getObject(6));
+	  		resultLabel.append("\t"+rs.getObject(7));
+	  		resultLabel.append("\t\t"+rs.getObject(8)+"\n");
 	  	 }
 	  } catch(SQLException e) {
 	  	   e.printStackTrace();
@@ -499,23 +549,58 @@ class SQL {
 	   resultLabel.append("\n");
    
    try {
-	  	 Statement stmt=con.createStatement();
-	  	 ResultSet rs=stmt.executeQuery("select * from Charts");
+	   Statement stmt=con.createStatement();
+	  	 ResultSet rs=stmt.executeQuery("select * from seats");
 	  	 int i=1;
-	  	 resultLabel.append("\t\tchart_id \ttreat_id \tdoc_id \tpat_id \tnur_id \t\tchar_contents\n");
+	  	 
+	  	 resultLabel.append("\t\tseat_id \tscreen_id \tis_available\n");
 	  	 while(rs.next()) {
 	  		resultLabel.append(i++ + "\t");
-	  		resultLabel.append("\t"+rs.getString(1));
-	  		resultLabel.append("\t"+rs.getInt(2));
-	  		resultLabel.append("\t"+String.format("%06d",rs.getInt(3)));
-	  		resultLabel.append("\t"+rs.getInt(4));
-	  		resultLabel.append("\t"+String.format("%06d",rs.getInt(5)));
-	  		resultLabel.append("\t\t"+rs.getString(6)+"\n");
+	  		resultLabel.append("\t"+rs.getObject(1));
+	  		resultLabel.append("\t"+rs.getObject(2));
+	  		resultLabel.append("\t\t"+rs.getObject(3)+"\n");
 	  	 }
 	  } catch(SQLException e) {
 	  	   e.printStackTrace();
 	    }
    resultLabel.append("\n");
+   
+   try {
+	   Statement stmt=con.createStatement();
+	  	 ResultSet rs=stmt.executeQuery("select * from members");
+	  	 int i=1;
+	  	 
+	  	 resultLabel.append("\t\tmember_id \tname \tphone \temail\n");
+	  	 while(rs.next()) {
+	  		resultLabel.append(i++ + "\t");
+	  		resultLabel.append("\t"+rs.getObject(1));
+	  		resultLabel.append("\t"+rs.getObject(2));
+	  		resultLabel.append("\t\t"+rs.getObject(3)+"\n");
+	  	 }
+	  } catch(SQLException e) {
+	  	   e.printStackTrace();
+	    }
+	   resultLabel.append("\n");
+	   
+	   try {
+		   Statement stmt=con.createStatement();
+		  	 ResultSet rs=stmt.executeQuery("select * from booking");
+		  	 int i=1;
+		  	 
+		  	 resultLabel.append("\t\tbooking_id \tpay_method \tpay_statement \t price \t member_id  \t date \n");
+		  	 while(rs.next()) {
+		  		resultLabel.append(i++ + "\t");
+		  		resultLabel.append("\t"+rs.getObject(1));
+		  		resultLabel.append("\t"+rs.getObject(2));
+		  		resultLabel.append("\t"+rs.getObject(3));
+		  		resultLabel.append("\t"+rs.getObject(4));
+		  		resultLabel.append("\t"+rs.getObject(5));
+		  		resultLabel.append("\t\t"+rs.getObject(6)+"\n");
+		  	 }
+		  } catch(SQLException e) {
+		  	   e.printStackTrace();
+		    }
+		   resultLabel.append("\n");
    }
    
    public void Search1(JTextArea resultLabel) {
