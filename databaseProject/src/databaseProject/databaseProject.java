@@ -130,11 +130,8 @@ class Manager extends JFrame {
 
 
 class Member extends JFrame {
-	JButton button[] = new JButton[7];
+	JButton button[] = new JButton[6];
 	SQL sql;
-	JTextField  jt1 = new JTextField(20);
-	JTextField  jt2 = new JTextField(1000);
-	JLabel error = new JLabel();
 	JTextArea result = new JTextArea();
 	boolean insert = false;
 	JScrollPane scrollPane = new JScrollPane(result);
@@ -148,65 +145,50 @@ class Member extends JFrame {
 		setSize(2000,2000);
 		setTitle("18011560/조민수");
 	
-		button[0] = new JButton("초기화");
+		button[0] = new JButton("모든 영화 조회");
 		button[0].setSize(200,100);
 		button[0].setLocation(0, 0);
 		c1.add(button[0]);
 		
-		button[1] = new JButton("입력");
+		button[1] = new JButton("예매");
 		button[1].setSize(200,100);
 		button[1].setLocation(200, 0);
 		c1.add(button[1]);
 		
-		button[2] = new JButton("검색-모든테이블");
+		button[2] = new JButton("예매 내역 조회");
 		button[2].setSize(200,100);
 		button[2].setLocation(400, 0);
 		c1.add(button[2]);
 		
-		button[3] = new JButton("검색1");
+		button[3] = new JButton("예매 삭제");
 		button[3].setSize(200,100);
 		button[3].setLocation(600, 0);
 		c1.add(button[3]);
 		
-		button[4] = new JButton("검색2");
+		button[4] = new JButton("영화 변경");
 		button[4].setSize(200,100);
 		button[4].setLocation(800, 0);
 		c1.add(button[4]);
 		
-		button[5] = new JButton("검색3");
+		button[5] = new JButton("일정 변경");
 		button[5].setSize(200,100);
 		button[5].setLocation(1000, 0);
 		c1.add(button[5]);
 		
-		button[6] = new JButton("입력");
-		button[6].setSize(200,100);
-		button[6].setLocation(500, 150);
-		c1.add(button[6]);
-		
-		JLabel label1 = new JLabel("테이블 이름");
-		label1.setSize(100,10);
-		label1.setLocation(0, 150);
+		JLabel label1 = new JLabel("모든 영화");
+		label1.setHorizontalAlignment(JLabel.CENTER);
+		label1.setSize(100, 50);
+		label1.setLocation(50, 100);
 		c1.add(label1);
 		
-		jt1.setLocation(100,150);
-		jt1.setSize(100,50);
-		c1.add(jt1);
+		JButton temp = new JButton("전체 테이블 보기");
+		temp.setSize(200,100);
+		temp.setLocation(30, 100);
 		
-		JLabel label2 = new JLabel("SQL");
-		label2.setSize(100,10);
-		label2.setLocation(0, 200);
-		c1.add(label2);
-
-		jt2.setLocation(100,200);
-		jt2.setSize(400,50);
-		c1.add(jt2);
 		
-		error.setSize(300,50);
-		error.setLocation(0, 250);
-		c1.add(error);
-		
-		scrollPane.setSize(1700,500);
-		scrollPane.setLocation(0, 400);
+		scrollPane.setSize(1700,400);
+		scrollPane.setLocation(0, 150);
+		scrollPane.add(temp);
 		c1.add(scrollPane);
 		
 		buttonFunction();
@@ -217,55 +199,26 @@ class Member extends JFrame {
 	public void buttonFunction() {
 		button[0].addActionListener(event -> {
 			result.setText(null);
-			error.setText(null);
-			
-			sql.Initialize();
 		});
 		
 		button[1].addActionListener(event -> {
 			result.setText(null);
-			error.setText(null);
-			
-			insert = true;
 		});
 		
 		button[2].addActionListener(event -> {
 			result.setText(null);
-			error.setText(null);
-			
-			sql.AllSearch(result);
 		});
 		
 		button[3].addActionListener(event -> {
 			result.setText(null);
-			error.setText(null);
-			
-			sql.Search1(result);
 		});
 		
 		button[4].addActionListener(event -> {
 			result.setText(null);
-			error.setText(null);
-			
-			sql.Search2(result);
 		});
 		
 		button[5].addActionListener(event -> {
 			result.setText(null);
-			error.setText(null);
-			
-			sql.Search3(result);
-		});
-		
-		button[6].addActionListener(event -> {
-			result.setText(null);
-			error.setText(null);
-			
-			if(insert == true) {
-				sql.Insert(jt1.getText(), jt2.getText(), error);
-			}
-			
-			insert = false;
 		});
 	}
 }
