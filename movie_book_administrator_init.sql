@@ -1,15 +1,15 @@
 -- <관리자 기능>
 -- 1. 데이터베이스 초기화
-drop table if exists tickets;
+drop table if exists movies;
+drop table if exists screens;
 drop table if exists movie_schedule;
 drop table if exists seats;
-drop table if exists booking;
-drop table if exists screens;
 drop table if exists members;
-drop table if exists movies;
+drop table if exists booking;
+drop table if exists tickets;
 
-CREATE TABLE IF NOT EXISTS `movie_book`.`movies` (
-  `movie_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS movies (
+  `movie_id` INT NOT NULL AUTO_INCREMENT,
   `movie_title` VARCHAR(45) NOT NULL,
   `running_time` VARCHAR(45) NOT NULL,
   `movie_rating` VARCHAR(45) NOT NULL,
@@ -21,15 +21,15 @@ CREATE TABLE IF NOT EXISTS `movie_book`.`movies` (
   PRIMARY KEY (`movie_id`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `movie_book`.`screens` (
-  `screen_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS screens (
+  `screen_id` INT NOT NULL AUTO_INCREMENT,
   `seats` INT NOT NULL,
   `is_available` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`screen_id`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `movie_book`.`movie_schedule` (
-  `movie_schedule_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS movie_schedule (
+  `movie_schedule_id` INT NOT NULL AUTO_INCREMENT,
   `movie_id` INT NOT NULL,
   `screen_id` INT NOT NULL,
   `screening_start_date` DATE NOT NULL,
@@ -42,17 +42,17 @@ CREATE TABLE IF NOT EXISTS `movie_book`.`movie_schedule` (
   CONSTRAINT `fk_movie_schedule_movies1`
     FOREIGN KEY (`movie_id`)
     REFERENCES `movie_book`.`movies` (`movie_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_movie_schedule_screens1`
     FOREIGN KEY (`screen_id`)
     REFERENCES `movie_book`.`screens` (`screen_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `movie_book`.`seats` (
-  `seat_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS seats (
+  `seat_id` INT NOT NULL AUTO_INCREMENT,
   `screen_id` INT NOT NULL,
   `is_available` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`seat_id`, `screen_id`),
@@ -60,43 +60,44 @@ CREATE TABLE IF NOT EXISTS `movie_book`.`seats` (
   CONSTRAINT `fk_seats_screens1`
     FOREIGN KEY (`screen_id`)
     REFERENCES `movie_book`.`screens` (`screen_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `movie_book`.`members` (
-  `member_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS members (
+  `member_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `phone` VARCHAR(45) NULL,
   `email` VARCHAR(45) NULL,
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `movie_book`.`booking` (
-  `booking_id` INT NOT NULL,
-  `member_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS booking (
+  `booking_id` INT NOT NULL AUTO_INCREMENT,
   `pay_method` VARCHAR(45) NOT NULL,
   `pay_statement` TINYINT NOT NULL,
   `price` VARCHAR(45) NOT NULL,
+  `member_id` INT NOT NULL,
+  `pay_date` DATE NOT NULL,
   PRIMARY KEY (`booking_id`, `member_id`),
   INDEX `fk_booking_members1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_booking_members1`
     FOREIGN KEY (`member_id`)
     REFERENCES `movie_book`.`members` (`member_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `movie_book`.`tickets` (
-  `ticket_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS tickets (
+  `ticket_id` INT NOT NULL AUTO_INCREMENT,
   `movie_schedule_id` INT NOT NULL,
-  `seat_id` INT NOT NULL,
   `screen_id` INT NOT NULL,
+  `seat_id` INT NOT NULL,
   `booking_id` INT NOT NULL,
   `is_ticket_printed` TINYINT NOT NULL DEFAULT 0,
   `standard_price` VARCHAR(45) NOT NULL,
   `selling_price` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`ticket_id`, `movie_schedule_id`, `seat_id`, `screen_id`, `booking_id`),
+  PRIMARY KEY (`ticket_id`, `movie_schedule_id`, `screen_id`, `seat_id`, `booking_id`),
   INDEX `fk_tickets_movie_schedule1_idx` (`movie_schedule_id` ASC) VISIBLE,
   INDEX `fk_tickets_seats1_idx` (`seat_id` ASC) VISIBLE,
   INDEX `fk_tickets_booking1_idx` (`booking_id` ASC) VISIBLE,
@@ -104,23 +105,23 @@ CREATE TABLE IF NOT EXISTS `movie_book`.`tickets` (
   CONSTRAINT `fk_tickets_movie_schedule1`
     FOREIGN KEY (`movie_schedule_id`)
     REFERENCES `movie_book`.`movie_schedule` (`movie_schedule_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_tickets_seats1`
     FOREIGN KEY (`seat_id`)
     REFERENCES `movie_book`.`seats` (`seat_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_tickets_booking1`
     FOREIGN KEY (`booking_id`)
     REFERENCES `movie_book`.`booking` (`booking_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_tickets_screens1`
     FOREIGN KEY (`screen_id`)
     REFERENCES `movie_book`.`screens` (`screen_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 INSERT INTO movies VALUES(1, '닥터 스트레인지', '2시간 20분', '15세', '조민수', '서진형', '판타지', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-01-09','%Y-%m-%d'));
@@ -178,16 +179,16 @@ insert into movie_schedule values(8, 8, 8, STR_TO_DATE('2021-08-09','%Y-%m-%d'),
 insert into movie_schedule values(9, 9, 9, STR_TO_DATE('2021-09-09','%Y-%m-%d'), '금요일', '4회차', '13시 15분');
 insert into movie_schedule values(10, 10, 10, STR_TO_DATE('2021-10-09','%Y-%m-%d'), '일요일', '1회차', '09시 15분');
 
-insert into booking values(1, 1, '카드', 1, '14,000원');
-insert into booking values(2, 2, '카드', 1, '12,000원');
-insert into booking values(3, 3, '현금', 1, '14,000원');
-insert into booking values(4, 4, '카드', 1, '12,000원');
-insert into booking values(5, 5, '현금', 1, '14,000원');
-insert into booking values(6, 6, '카드', 1, '13,000원');
-insert into booking values(7, 7, '무통장', 0, '14,000원');
-insert into booking values(8, 8, '현금', 1, '14,000원');
-insert into booking values(9, 9, '현금', 1, '12,000원');
-insert into booking values(10, 10, '카드', 1, '14,000원');
+insert into booking values(1, '카드', 1, '14,000원', 1, STR_TO_DATE('2021-01-08','%Y-%m-%d'));
+insert into booking values(2, '카드', 1, '12,000원', 2, STR_TO_DATE('2021-02-09','%Y-%m-%d'));
+insert into booking values(3, '현금', 1, '14,000원', 3, STR_TO_DATE('2021-03-08','%Y-%m-%d'));
+insert into booking values(4, '카드', 1, '12,000원', 4, STR_TO_DATE('2021-04-08','%Y-%m-%d'));
+insert into booking values(5, '현금', 1, '14,000원', 5, STR_TO_DATE('2021-05-08','%Y-%m-%d'));
+insert into booking values(6, '카드', 1, '13,000원', 6, STR_TO_DATE('2021-06-08','%Y-%m-%d'));
+insert into booking values(7, '무통장', 0, '14,000원', 7, STR_TO_DATE('2021-07-08','%Y-%m-%d'));
+insert into booking values(8, '현금', 1, '14,000원', 8, STR_TO_DATE('2021-08-08','%Y-%m-%d'));
+insert into booking values(9, '현금', 1, '12,000원', 9, STR_TO_DATE('2021-09-08','%Y-%m-%d'));
+insert into booking values(10, '카드', 1, '14,000원', 10, STR_TO_DATE('2021-10-08','%Y-%m-%d'));
 
 insert into tickets values(1, 1, 1, 1, 1, 1, '14,000원', '14,000원');
 insert into tickets values(2, 2, 2, 2, 2, 2, '12,000원', '12,000원');
@@ -202,3 +203,4 @@ insert into tickets values(10, 10, 10, 10, 10, 10, '14,000원', '11,000원');
 
 -- 2. 데이터베이스에 포함된 모든 테이블에 대한 입력/삭제/변경 기능 (단, 삭제/변경은 '조건식' 입력받아서 삭제/변경하는 방식으로 구현)
 -- 3. 전체 테이블 보기: 모든 테이블 내용 보여주는 기능
+
