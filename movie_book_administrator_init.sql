@@ -1,12 +1,12 @@
 -- <관리자 기능>
 -- 1. 데이터베이스 초기화
-drop table if exists movies;
-drop table if exists screens;
+drop table if exists tickets;
 drop table if exists movie_schedule;
 drop table if exists seats;
-drop table if exists members;
 drop table if exists booking;
-drop table if exists tickets;
+drop table if exists screens;
+drop table if exists members;
+drop table if exists movies;
 
 CREATE TABLE IF NOT EXISTS movies (
   `movie_id` INT NOT NULL AUTO_INCREMENT,
