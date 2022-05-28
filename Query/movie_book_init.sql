@@ -114,4 +114,3 @@ CREATE TABLE IF NOT EXISTS `movie_book`.`tickets` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-

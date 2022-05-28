@@ -157,16 +157,27 @@ insert into screens values (8, 124, 1);
 insert into screens values (9, 450, 1);
 insert into screens values (10, 123, 1);
 
-insert into seats values (1, 1, 1);
-insert into seats values (2, 2, 1);
+insert into seats values (1, 1, 0);
+insert into seats values (2, 2, 0);
 insert into seats values (3, 3, 0);
-insert into seats values (4, 4, 1);
+insert into seats values (4, 4, 0);
 insert into seats values (5, 5, 0);
-insert into seats values (6, 6, 1);
+insert into seats values (6, 6, 0);
 insert into seats values (7, 7, 0);
-insert into seats values (8, 8, 1);
-insert into seats values (9, 2, 0);
-insert into seats values (10, 4, 0);
+insert into seats values (8, 8, 0);
+insert into seats values (9, 9, 0);
+insert into seats values (10, 10, 0);
+insert into seats values (11, 1, 1);
+insert into seats values (12, 2, 1);
+insert into seats values (13, 3, 1);
+insert into seats values (14, 4, 1);
+insert into seats values (15, 5, 1);
+insert into seats values (16, 6, 1);
+insert into seats values (17, 7, 1);
+insert into seats values (18, 8, 1);
+insert into seats values (19, 2, 1);
+insert into seats values (20, 4, 1);
+
 
 insert into movie_schedule values(1, 1, 1, STR_TO_DATE('2021-01-09','%Y-%m-%d'), '월요일', '1회차', '09시 15분');
 insert into movie_schedule values(2, 2, 2, STR_TO_DATE('2021-02-09','%Y-%m-%d'), '화요일', '2회차', '10시 15분');
@@ -178,6 +189,7 @@ insert into movie_schedule values(7, 7, 7, STR_TO_DATE('2021-07-09','%Y-%m-%d'),
 insert into movie_schedule values(8, 8, 8, STR_TO_DATE('2021-08-09','%Y-%m-%d'), '수요일', '2회차', '11시 15분');
 insert into movie_schedule values(9, 9, 9, STR_TO_DATE('2021-09-09','%Y-%m-%d'), '금요일', '4회차', '13시 15분');
 insert into movie_schedule values(10, 10, 10, STR_TO_DATE('2021-10-09','%Y-%m-%d'), '일요일', '1회차', '09시 15분');
+insert into movie_schedule values(11, 1, 8, STR_TO_DATE('2021-01-10','%Y-%m-%d'), '화요일', '2회차', '09시 20분');
 
 insert into booking values(1, '카드', 1, '14,000원', 1, STR_TO_DATE('2021-01-08','%Y-%m-%d'));
 insert into booking values(2, '카드', 1, '12,000원', 2, STR_TO_DATE('2021-02-09','%Y-%m-%d'));
@@ -191,16 +203,15 @@ insert into booking values(9, '현금', 1, '12,000원', 9, STR_TO_DATE('2021-09-
 insert into booking values(10, '카드', 1, '14,000원', 10, STR_TO_DATE('2021-10-08','%Y-%m-%d'));
 
 insert into tickets values(1, 1, 1, 1, 1, 1, '14,000원', '14,000원');
-insert into tickets values(2, 2, 2, 2, 2, 2, '12,000원', '12,000원');
-insert into tickets values(3, 3, 3, 3, 3, 3, '14,000원', '14,000원');
-insert into tickets values(4, 4, 4, 4, 4, 4, '14,000원', '13,000원');
-insert into tickets values(5, 5, 5, 5, 5, 5, '14,000원', '13,000원');
-insert into tickets values(6, 6, 6, 6, 6, 6, '12,000원', '12,000원');
-insert into tickets values(7, 7, 7, 7, 7, 7, '14,000원', '14,000원');
-insert into tickets values(8, 8, 8, 8, 8, 8, '13,000원', '11,000원');
-insert into tickets values(9, 9, 9, 9, 9, 9, '14,000원', '14,000원');
-insert into tickets values(10, 10, 10, 10, 10, 10, '14,000원', '11,000원');
+insert into tickets values(2, 2, 2, 2, 2, 0, '12,000원', '12,000원');
+insert into tickets values(3, 3, 3, 3, 3, 1, '14,000원', '14,000원');
+insert into tickets values(4, 4, 4, 4, 4, 0, '14,000원', '13,000원');
+insert into tickets values(5, 5, 5, 5, 5, 0, '14,000원', '13,000원');
+insert into tickets values(6, 6, 6, 6, 6, 1, '12,000원', '12,000원');
+insert into tickets values(7, 7, 7, 7, 7, 1, '14,000원', '14,000원');
+insert into tickets values(8, 8, 8, 8, 8, 1, '13,000원', '11,000원');
+insert into tickets values(9, 9, 9, 9, 9, 1, '14,000원', '14,000원');
+insert into tickets values(10, 10, 10, 10, 10, 1, '14,000원', '11,000원');
 
 -- 2. 데이터베이스에 포함된 모든 테이블에 대한 입력/삭제/변경 기능 (단, 삭제/변경은 '조건식' 입력받아서 삭제/변경하는 방식으로 구현)
 -- 3. 전체 테이블 보기: 모든 테이블 내용 보여주는 기능
-
