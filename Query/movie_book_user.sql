@@ -1,17 +1,17 @@
 -- <회원 기능>
 -- 1. 모든 영화에 대한 조회 기능 : 영화명, 감독명, 배우명, 장르 조회
-select * from movies where movie_title = '영화명';
-select * from movies where director = '감독명';
-select * from movies where actor = '배우명';
-select * from movies where genre = '장르명';
+select m.movie_id, m.movie_title, m.running_time, m.movie_rating, m.director, m.actor, m.genre,
+ms.movie_schedule_id, ms.screening_day, ms.screening_start_time, s.seat_id
+from movies as m
+left join movie_schedule as ms
+on m.movie_id = ms.movie_id
+left join screens as sc
+on ms.screen_id = sc.screen_id 
+left join seats as s
+on ms.screen_id = s.screen_id
+where sc.is_available = 1 and s.is_available = 1 and m.movie_title = '범죄도시1' and m.director = '감독명' and m.actor = '배우명' and m.genre = '장르';
 
 -- 2. 위에서 조회한 영화에 대한 예매 기능
-select ms.movie_schedule_id, ms.screen_id, ms.screening_start_date, ms.screening_day, ms.screening_round, ms.screening_start_time, s.is_available
-from movie_schedule as ms
-left join screens as s
-on s.is_available = 1 and ms.screen_id = s.screen_id
-where ms.movie_id = ?; -- movie_id는 위에서 조회한 영화 id 값
-select * from seats where screen_id = ? and is_available = 1; -- screen_id는 위 쿼리문에서 받아온 screen_id 값
 insert into booking (pay_method, pay_statement, price, member_id, pay_date)
 values (?, 1, '14,000원', ?, STR_TO_DATE('2021-01-01','%Y-%m-%d')); -- pay_method, member_id는 변수 /pay_date는 영화상영시작일에 맞게 변수 처리하던가 해야할덧...
 select last_insert_id(); -- booking 테이블에 방금 insert 한 booking_id 값 가져오기 
