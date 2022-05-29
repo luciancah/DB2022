@@ -1,7 +1,7 @@
 -- <회원 기능>
 -- 1. 모든 영화에 대한 조회 기능 : 영화명, 감독명, 배우명, 장르 조회
 select m.movie_id, m.movie_title, m.running_time, m.movie_rating, m.director, m.actor, m.genre,
-ms.movie_schedule_id, ms.screening_day, ms.screening_start_time, s.seat_id
+ms.movie_schedule_id, ms.screening_day, ms.screening_start_time, sc.screen_id, s.seat_id
 from movies as m
 left join movie_schedule as ms
 on m.movie_id = ms.movie_id
@@ -9,12 +9,15 @@ left join screens as sc
 on ms.screen_id = sc.screen_id 
 left join seats as s
 on ms.screen_id = s.screen_id
-where sc.is_available = 1 and s.is_available = 1 and m.movie_title = '범죄도시1' and m.director = '감독명' and m.actor = '배우명' and m.genre = '장르';
+where sc.is_available = 1 and s.is_available = 1 and m.movie_title = '영화명' and m.director = '감독명' and m.actor = '배우명' and m.genre = '장르';
 
 -- 2. 위에서 조회한 영화에 대한 예매 기능
 insert into booking (pay_method, pay_statement, price, member_id, pay_date)
 values (?, 1, '14,000원', ?, STR_TO_DATE('2021-01-01','%Y-%m-%d')); -- pay_method, member_id는 변수 /pay_date는 영화상영시작일에 맞게 변수 처리하던가 해야할덧...
-select last_insert_id(); -- booking 테이블에 방금 insert 한 booking_id 값 가져오기 
+select last_insert_id() as booking_id; -- booking 테이블에 방금 insert 한 booking_id 값 가져오기
+select movie_schedule_id
+from movie_schedule 
+where screen_id = ? and screening_day = '?' and screening_start_time = '?'; 
 insert into tickets (movie_schedule_id, screen_id, seat_id, booking_id, is_ticket_printed, standard_price, selling_price)
 values (?, ?, ?, ?, 0, '15,000원', '14,000원'); -- movie_schedule_id, screen_id, seat_id, booking_id는 변수
 update seats set is_available = 0 where seat_id = ?; -- 방금 예매한 좌석 사용 불가 처리/ seat_id는 변수
