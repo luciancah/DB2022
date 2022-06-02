@@ -265,6 +265,7 @@ class Member extends JFrame {
 	public void buttonFunction() {
 		button[0].addActionListener(event -> {
 			error.setText(null);
+			bookingtableopen = false;
 			
 			MovieInquery(total);
 		});
@@ -329,9 +330,9 @@ class Member extends JFrame {
 					+ "left join screens as sc\r\n"
 					+ "on sc.is_available = 1 and ms.screen_id = sc.screen_id\r\n"
 					+ "left join seats as s\r\n"
-					+ "on sc.screen_id = s.screen_id\r\n"
+					+ "on s.is_available = 1 and sc.screen_id = s.screen_id\r\n"
 					+ "where ms.movie_id not in (select movie_id from movie_schedule where movie_schedule_id = " + moviescheduleid + ");";
-			sql.ExtraMoviescheduleShow(extra, query);
+			sql.MovieSearch(extra, error, query);
 		});
 
 		button[5].addActionListener(event -> {
@@ -416,12 +417,16 @@ class Member extends JFrame {
 				tableSelectRow = total.getSelectedRow();
 
 				String query = "select ms.screening_start_date, ms.screening_day, ms.screening_round, ms.screening_start_time,\r\n"
-						+ "t.screen_id, t.seat_id, s.seats, t.is_ticket_printed, t.standard_price, t.selling_price\r\n"
-						+ "from tickets as t\r\n" + "left join movie_schedule as ms\r\n"
-						+ "on t.movie_schedule_id = ms.movie_schedule_id\r\n" + "left join screens as s\r\n"
-						+ "on t.screen_id = s.screen_id\r\n" + "where booking_id in (select booking_id from tickets\r\n"
-						+ "					where screen_id = " + total.getValueAt(tableSelectRow, 2)
-						+ " and seat_id = " + total.getValueAt(tableSelectRow, 3) + ");";
+						+ "t.screen_id, t.seat_id, sc.seats, t.is_ticket_printed, t.standard_price, t.selling_price\r\n"
+						+ "from tickets as t \r\n"
+						+ "left join movie_schedule as ms\r\n"
+						+ "on t.movie_schedule_id = ms.movie_schedule_id \r\n"
+						+ "left join screens as sc\r\n"
+						+ "on t.screen_id = sc.screen_id\r\n"
+						+ "left join seats as s\r\n"
+						+ "on s.screen_id = sc.screen_id\r\n"
+						+ "where booking_id in (select booking_id from tickets\r\n"
+						+ "									where s.screen_id = " + total.getValueAt(tableSelectRow, 2) + " and s.seat_id = " + total.getValueAt(tableSelectRow, 3) + ");";
 
 				if (bookingtableopen)
 					sql.BookingClickShow(total, query);
