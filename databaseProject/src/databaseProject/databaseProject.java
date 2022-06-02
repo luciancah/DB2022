@@ -12,7 +12,7 @@ class Title extends JFrame {
 	SQL sql = new SQL();
 	JButton button[] = new JButton[2];
 	JTextField memberid = new JTextField(2);
-	
+
 	public Title() {
 		Container c1 = getContentPane();
 		c1.setLayout(null);
@@ -30,13 +30,13 @@ class Title extends JFrame {
 		button[1].setSize(300, 300);
 		button[1].setLocation(1000, 300);
 		c1.add(button[1]);
-		
+
 		JLabel memberidlabel = new JLabel("회원아이디");
 		memberidlabel.setHorizontalAlignment(JLabel.CENTER);
 		memberidlabel.setLocation(1000, 200);
 		memberidlabel.setSize(100, 50);
 		c1.add(memberidlabel);
-		
+
 		memberid.setText("1");
 		memberid.setLocation(1100, 200);
 		memberid.setSize(50, 50);
@@ -64,13 +64,19 @@ class Manager extends JFrame {
 	JButton button[] = new JButton[3];
 	SQL sql;
 	JTextField jt2 = new JTextField(1000);
+	JTextField jt3 = new JTextField(1000);
 	JLabel error = new JLabel();
 	JTextArea result = new JTextArea();
 	JScrollPane scrollPane = new JScrollPane(result);
+	String modelist[] = { "입력", "변경", "삭제" };
+	JComboBox<String> mode = new JComboBox<String>(modelist);
+	String tablelist[] = { "movies", "movie_schedule", "screens", "tickets", "seats", "members", "booking" };
+	JComboBox<String> table = new JComboBox<String>(tablelist);
+	JComboBox<String> attribute = new JComboBox<String>();
+	Container c1 = getContentPane();
 
 	public Manager(SQL _sql) {
 		sql = _sql;
-		Container c1 = getContentPane();
 		c1.setLayout(null);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,7 +90,7 @@ class Manager extends JFrame {
 
 		button[1] = new JButton("입력/삭제/변경");
 		button[1].setSize(200, 100);
-		button[1].setLocation(500, 150);
+		button[1].setLocation(750, 120);
 		c1.add(button[1]);
 
 		button[2] = new JButton("전체 테이블 보기");
@@ -92,15 +98,27 @@ class Manager extends JFrame {
 		button[2].setLocation(200, 0);
 		c1.add(button[2]);
 
-		JLabel label = new JLabel("SQL");
+		JLabel label = new JLabel("조건식");
 		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setVerticalAlignment(JLabel.CENTER);
 		label.setSize(100, 10);
-		label.setLocation(0, 200);
+		label.setLocation(250, 180);
 		c1.add(label);
+		
+		JLabel label1 = new JLabel("변경할 값");
+		label1.setHorizontalAlignment(JLabel.CENTER);
+		label1.setVerticalAlignment(JLabel.CENTER);
+		label1.setSize(100, 10);
+		label1.setLocation(250, 130);
+		c1.add(label1);
 
-		jt2.setLocation(100, 200);
+		jt2.setLocation(350, 180);
 		jt2.setSize(400, 50);
 		c1.add(jt2);
+		
+		jt3.setLocation(350, 130);
+		jt3.setSize(400, 50);
+		c1.add(jt3);
 
 		error.setSize(300, 50);
 		error.setLocation(0, 250);
@@ -109,6 +127,22 @@ class Manager extends JFrame {
 		scrollPane.setSize(1700, 500);
 		scrollPane.setLocation(0, 400);
 		c1.add(scrollPane);
+
+		mode.setSize(150, 50);
+		mode.setLocation(100, 100);
+		c1.add(mode);
+
+		table.setSize(150, 50);
+		table.setLocation(100, 150);
+		AttributeShow();
+		c1.add(table);
+
+		String attributelist[] = new String[] { "movie_id", "movie_title", "running_time", "movie_rating", "director",
+				"actor", "genre", "movie_introduction", "release_date" };
+		attribute = new JComboBox<String>(attributelist);
+		attribute.setSize(150, 50);
+		attribute.setLocation(100, 200);
+		c1.add(attribute);
 
 		buttonFunction();
 
@@ -127,7 +161,25 @@ class Manager extends JFrame {
 			result.setText(null);
 			error.setText(null);
 
-			sql.Controll(error, jt2.getText());
+			String query = "";
+
+			switch (mode.getSelectedItem().toString()) {
+			case "입력":
+				query = jt2.getText();
+				break;
+			case "변경":
+				query = "update " + table.getSelectedItem().toString() + " set " + attribute.getSelectedItem().toString() + " = " + jt3.getText() + " where " + jt2.getText() + ";";
+				System.out.println(query);
+				break;
+			case "삭제":
+				query = "delete from " + table.getSelectedItem().toString() + " where " + jt2.getText() + ";";
+				break;
+			default:
+				break;
+			}
+			
+			sql.Controll(error, query);
+			
 		});
 
 		button[2].addActionListener(event -> {
@@ -135,6 +187,51 @@ class Manager extends JFrame {
 			error.setText(null);
 
 			sql.AllSearch(result);
+		});
+	}
+
+	public void AttributeShow() {
+		table.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String temp = table.getSelectedItem().toString();
+				String attributelist[] = null;
+
+				switch (temp) {
+				case "movies":
+					attributelist = new String[] { "movie_id", "movie_title", "running_time", "movie_rating",
+							"director", "actor", "genre", "movie_introduction", "release_date" };
+					break;
+				case "movie_schedule":
+					attributelist = new String[] { "movie_schedule_id", "movie_id", "screen_id", "screening_start_date",
+							"screening_day", "screening_round", "screening_start_time" };
+					break;
+				case "screens":
+					attributelist = new String[] { "screen_id", "seats", "is_available" };
+					break;
+				case "seats":
+					attributelist = new String[] { "seat_id", "screen_id", "is_available" };
+					break;
+				case "tickets":
+					attributelist = new String[] { "ticket_id", "movie_schedule_id", "screen_id", "seat_id",
+							"booking_id", "is_ticket_printed", "standard_price", "selling_price" };
+					break;
+				case "booking":
+					attributelist = new String[] { "booking_id", "pay_method", "pay_statement", "price", "member_id" };
+					break;
+				case "members":
+					attributelist = new String[] { "member_id", "name", "phone", "email" };
+					break;
+				default:
+					break;
+				}
+
+				c1.remove(attribute);
+				attribute = new JComboBox<String>(attributelist);
+				attribute.setSize(150, 50);
+				attribute.setLocation(100, 200);
+				c1.add(attribute);
+			}
 		});
 	}
 }
@@ -156,7 +253,6 @@ class Member extends JFrame {
 	DefaultTableModel extramodel = new DefaultTableModel();
 	JTable extra = new JTable();
 	JScrollPane extrascrollpane = new JScrollPane(extra);
-	
 
 	public Member(SQL _sql, String _memberid) {
 		sql = _sql;
@@ -196,7 +292,7 @@ class Member extends JFrame {
 		button[5].setSize(200, 100);
 		button[5].setLocation(1000, 0);
 		c1.add(button[5]);
-		
+
 		button[6] = new JButton("영화 변경");
 		button[6].setSize(200, 100);
 		button[6].setLocation(1200, 0);
@@ -251,7 +347,7 @@ class Member extends JFrame {
 		scrollPane.setSize(1700, 400);
 		scrollPane.setLocation(0, 150);
 		c1.add(scrollPane);
-		
+
 		extrascrollpane.setSize(1000, 200);
 		extrascrollpane.setLocation(0, 600);
 		c1.add(extrascrollpane);
@@ -266,13 +362,13 @@ class Member extends JFrame {
 		button[0].addActionListener(event -> {
 			error.setText(null);
 			bookingtableopen = false;
-			
+
 			MovieInquery(total);
 		});
 
 		button[1].addActionListener(event -> {
 			error.setText(null);
-			
+
 			String query;
 
 			query = "insert into booking (pay_method, pay_statement, price, member_id, pay_date) values (0, 1, '13,000원', "
@@ -292,63 +388,60 @@ class Member extends JFrame {
 
 			query = "update seats set is_available = 0 where seat_id = " + total.getValueAt(tableSelectRow, 9) + ";";
 			sql.ExcecuteUpdateQuery(query);
-			
+
 			MovieInquery(total);
 		});
 
 		button[2].addActionListener(event -> {
 			error.setText(null);
-			
+
 			BookingShow();
 		});
 
 		button[3].addActionListener(event -> {
 			error.setText(null);
-			
-			String query = "delete from booking where booking_id in (select booking_id from tickets where seat_id = " + total.getValueAt(tableSelectRow, 5) + ");";
+
+			String query = "delete from booking where booking_id in (select booking_id from tickets where seat_id = "
+					+ total.getValueAt(tableSelectRow, 5) + ");";
 			sql.ExcecuteUpdateQuery(query);
-			
+
 			query = "update seats set is_available = 1 where seat_id = " + total.getValueAt(tableSelectRow, 5);
 			sql.ExcecuteUpdateQuery(query);
-			
+
 			BookingShow();
 		});
 
 		button[4].addActionListener(event -> {
 			error.setText(null);
-			
+
 			int moviescheduleid = sql.GetSQLInt("select movie_schedule_id\r\n" + "from movie_schedule \r\n"
 					+ "where screen_id = " + total.getValueAt(tableSelectRow, 4) + " and screening_start_date = '"
 					+ total.getValueAt(tableSelectRow, 0) + "' and screening_start_time =  '"
 					+ total.getValueAt(tableSelectRow, 3) + "';");
-			
+
 			String query = "select m.movie_title, m.running_time, m.movie_rating, m.director, m.actor, \r\n"
 					+ "		m.genre, ms.screening_start_date, ms.screening_start_time, sc.screen_id, s.seat_id\r\n"
-					+ "from movies as m\r\n"
-					+ "left join movie_schedule as ms\r\n"
-					+ "on m.movie_id = ms.movie_id\r\n"
-					+ "left join screens as sc\r\n"
-					+ "on sc.is_available = 1 and ms.screen_id = sc.screen_id\r\n"
-					+ "left join seats as s\r\n"
-					+ "on s.is_available = 1 and sc.screen_id = s.screen_id\r\n"
-					+ "where ms.movie_id not in (select movie_id from movie_schedule where movie_schedule_id = " + moviescheduleid + ");";
+					+ "from movies as m\r\n" + "left join movie_schedule as ms\r\n" + "on m.movie_id = ms.movie_id\r\n"
+					+ "left join screens as sc\r\n" + "on sc.is_available = 1 and ms.screen_id = sc.screen_id\r\n"
+					+ "left join seats as s\r\n" + "on s.is_available = 1 and sc.screen_id = s.screen_id\r\n"
+					+ "where ms.movie_id not in (select movie_id from movie_schedule where movie_schedule_id = "
+					+ moviescheduleid + ");";
 			sql.MovieSearch(extra, error, query);
 		});
 
 		button[5].addActionListener(event -> {
 			error.setText(null);
-			
+
 			String query = "select ms.screening_start_date, ms.screening_day, ms.screening_round, ms.screening_start_time, ms.screen_id, se.seat_id\r\n"
-					+ "from movie_schedule as ms\r\n"
-					+ "left join screens as s\r\n"
-					+ "on s.is_available = 1 and ms.screen_id = s.screen_id\r\n"
-					+ "left join seats as se\r\n"
+					+ "from movie_schedule as ms\r\n" + "left join screens as s\r\n"
+					+ "on s.is_available = 1 and ms.screen_id = s.screen_id\r\n" + "left join seats as se\r\n"
 					+ "on s.screen_id = se.screen_id\r\n"
 					+ "where movie_id not in (select movie_id from movie_schedule "
-					+ "where movie_schedule_id in (select movie_schedule_id from tickets where seat_id = " + total.getValueAt(tableSelectRow, 5) + ")) and se.is_available = 1 and s.is_available = 1;";
+					+ "where movie_schedule_id in (select movie_schedule_id from tickets where seat_id = "
+					+ total.getValueAt(tableSelectRow, 5) + ")) and se.is_available = 1 and s.is_available = 1;";
 			sql.ExtraMoviescheduleShow(extra, query);
 		});
-		
+
 		button[6].addActionListener(event -> {
 			error.setText(null);
 
@@ -356,40 +449,48 @@ class Member extends JFrame {
 					+ "where screen_id = " + extra.getValueAt(extratableSelectRow, 8) + " and screening_start_date = '"
 					+ extra.getValueAt(extratableSelectRow, 6) + "' and screening_start_time =  '"
 					+ extra.getValueAt(extratableSelectRow, 7) + "';");
-			
-			String query = "update tickets set movie_schedule_id = " + moviescheduleid + ", screen_id = " + extra.getValueAt(extratableSelectRow, 8) + ", seat_id = " + extra.getValueAt(extratableSelectRow, 9) 
-							+ " where booking_id in (select booking_id from (select a.booking_id \r\n"
-							+ "									from tickets a where seat_id = " + total.getValueAt(tableSelectRow, 5) + ") tmp);";
+
+			String query = "update tickets set movie_schedule_id = " + moviescheduleid + ", screen_id = "
+					+ extra.getValueAt(extratableSelectRow, 8) + ", seat_id = "
+					+ extra.getValueAt(extratableSelectRow, 9)
+					+ " where booking_id in (select booking_id from (select a.booking_id \r\n"
+					+ "									from tickets a where seat_id = "
+					+ total.getValueAt(tableSelectRow, 5) + ") tmp);";
 			sql.ExcecuteUpdateQuery(query);
-			
-			query = "update seats set is_available = 0 where seat_id = " + extra.getValueAt(extratableSelectRow, 9) + ";";
+
+			query = "update seats set is_available = 0 where seat_id = " + extra.getValueAt(extratableSelectRow, 9)
+					+ ";";
 			sql.ExcecuteUpdateQuery(query);
-			
+
 			query = "update seats set is_available = 1 where seat_id = " + total.getValueAt(tableSelectRow, 5) + ";";
 			sql.ExcecuteUpdateQuery(query);
-			
+
 			BookingShow();
 		});
-		
+
 		button[7].addActionListener(event -> {
 			error.setText(null);
-			
+
 			int moviescheduleid = sql.GetSQLInt("select movie_schedule_id\r\n" + "from movie_schedule \r\n"
 					+ "where screen_id = " + extra.getValueAt(extratableSelectRow, 4) + " and screening_start_date = '"
 					+ extra.getValueAt(extratableSelectRow, 0) + "' and screening_start_time =  '"
 					+ extra.getValueAt(extratableSelectRow, 3) + "';");
-			
-			String query = "update tickets set movie_schedule_id = " + moviescheduleid + ", screen_id = " + extra.getValueAt(extratableSelectRow, 4) + ", seat_id = " + extra.getValueAt(extratableSelectRow, 5) 
-							+ " where booking_id in (select booking_id from (select a.booking_id \r\n"
-							+ "									from tickets a where seat_id = " + total.getValueAt(tableSelectRow, 5) + ") tmp);";
+
+			String query = "update tickets set movie_schedule_id = " + moviescheduleid + ", screen_id = "
+					+ extra.getValueAt(extratableSelectRow, 4) + ", seat_id = "
+					+ extra.getValueAt(extratableSelectRow, 5)
+					+ " where booking_id in (select booking_id from (select a.booking_id \r\n"
+					+ "									from tickets a where seat_id = "
+					+ total.getValueAt(tableSelectRow, 5) + ") tmp);";
 			sql.ExcecuteUpdateQuery(query);
-			
-			query = "update seats set is_available = 0 where seat_id = " + extra.getValueAt(extratableSelectRow, 5) + ";";
+
+			query = "update seats set is_available = 0 where seat_id = " + extra.getValueAt(extratableSelectRow, 5)
+					+ ";";
 			sql.ExcecuteUpdateQuery(query);
-			
+
 			query = "update seats set is_available = 1 where seat_id = " + total.getValueAt(tableSelectRow, 5) + ";";
 			sql.ExcecuteUpdateQuery(query);
-			
+
 			BookingShow();
 		});
 	}
@@ -418,23 +519,21 @@ class Member extends JFrame {
 
 				String query = "select ms.screening_start_date, ms.screening_day, ms.screening_round, ms.screening_start_time,\r\n"
 						+ "t.screen_id, t.seat_id, sc.seats, t.is_ticket_printed, t.standard_price, t.selling_price\r\n"
-						+ "from tickets as t \r\n"
-						+ "left join movie_schedule as ms\r\n"
-						+ "on t.movie_schedule_id = ms.movie_schedule_id \r\n"
-						+ "left join screens as sc\r\n"
-						+ "on t.screen_id = sc.screen_id\r\n"
-						+ "left join seats as s\r\n"
+						+ "from tickets as t \r\n" + "left join movie_schedule as ms\r\n"
+						+ "on t.movie_schedule_id = ms.movie_schedule_id \r\n" + "left join screens as sc\r\n"
+						+ "on t.screen_id = sc.screen_id\r\n" + "left join seats as s\r\n"
 						+ "on s.screen_id = sc.screen_id\r\n"
 						+ "where booking_id in (select booking_id from tickets\r\n"
-						+ "									where s.screen_id = " + total.getValueAt(tableSelectRow, 2) + " and s.seat_id = " + total.getValueAt(tableSelectRow, 3) + ");";
+						+ "									where s.screen_id = " + total.getValueAt(tableSelectRow, 2)
+						+ " and s.seat_id = " + total.getValueAt(tableSelectRow, 3) + ");";
 
 				if (bookingtableopen)
 					sql.BookingClickShow(total, query);
-				
+
 				bookingtableopen = false;
 			}
 		});
-		
+
 		extra.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -458,7 +557,7 @@ class Member extends JFrame {
 			}
 		});
 	}
-	
+
 	public void MovieInquery(JTable table) {
 		String where[] = { "", "", "", "" };
 		String query = "select m.movie_title, m.running_time, m.movie_rating, m.director, m.actor, m.genre,\r\n"
@@ -497,14 +596,15 @@ class Member extends JFrame {
 
 		sql.MovieSearch(table, error, query);
 	}
-	
+
 	public void BookingShow() {
 		bookingtableopen = true;
-		
+
 		String query = "select m.movie_title, ms.screening_start_date, t.screen_id, t.seat_id, b.price\r\n"
 				+ "from booking as b\r\n" + "left join tickets as t\r\n" + "on b.booking_id = t.booking_id\r\n"
 				+ "left join movie_schedule as ms\r\n" + "on ms.movie_schedule_id = t.movie_schedule_id\r\n"
-				+ "left join movies as m\r\n" + "on m.movie_id = ms.movie_id\r\n" + "where member_id = " + memberid + ";";
+				+ "left join movies as m\r\n" + "on m.movie_id = ms.movie_id\r\n" + "where member_id = " + memberid
+				+ ";";
 
 		sql.BookingSearch(total, query);
 	}
@@ -750,7 +850,7 @@ class SQL {
 	public void AllSearch(JTextArea resultLabel) {
 
 		resultLabel.append(
-				"\t\tmovie_id \tmovie_title \t\trunning_time \t\tmovie_rating \t\tdirector \t\tactor\t\tgenre \t movie_introduction \t release_date\n");
+				"movies \t\tmovie_id \tmovie_title \t\trunning_time \t\tmovie_rating \t\tdirector \t\tactor\t\tgenre \t movie_introduction \t release_date\n");
 
 		try {
 			Statement stmt = con.createStatement();
@@ -766,7 +866,7 @@ class SQL {
 				resultLabel.append("\t\t" + rs.getString(5));
 				resultLabel.append("\t\t" + rs.getString(6));
 				resultLabel.append("\t\t" + rs.getString(7));
-				resultLabel.append("\t\t" + rs.getString(8));
+				resultLabel.append("\t" + rs.getString(8));
 				resultLabel.append("\t" + rs.getString(9) + "\n");
 			}
 		} catch (SQLException e) {
@@ -780,11 +880,11 @@ class SQL {
 			int i = 1;
 
 			resultLabel.append(
-					"\t\tmovie_schedule_id \tmovie_id \tscreen_id \tscreening_start_date \t\tscreening_day \t\tscreening_round \t\tscreening_start_time\n");
+					"movie_schedule \tmovie_schedule_id \tmovie_id \tscreen_id \tscreening_start_date \tscreening_day \t\tscreening_round \tscreening_start_time\n");
 			while (rs.next()) {
 				resultLabel.append(i++ + "\t");
 				resultLabel.append("\t" + rs.getObject(1));
-				resultLabel.append("\t" + rs.getObject(2));
+				resultLabel.append("\t\t" + rs.getObject(2));
 				resultLabel.append("\t" + rs.getObject(3));
 				resultLabel.append("\t" + rs.getObject(4));
 				resultLabel.append("\t\t" + rs.getObject(5));
@@ -801,7 +901,7 @@ class SQL {
 			ResultSet rs = stmt.executeQuery("select * from screens");
 			int i = 1;
 
-			resultLabel.append("\t\tscreen_id \tseats \t\tis_available\n");
+			resultLabel.append("screens \t\tscreen_id \tseats \t\tis_available\n");
 			while (rs.next()) {
 				resultLabel.append(i++ + "\t");
 				resultLabel.append("\t" + String.format("%06d", rs.getInt(1)));
@@ -819,16 +919,16 @@ class SQL {
 			int i = 1;
 
 			resultLabel.append(
-					"\t\tticket_id \tmovie_schedule_id \tscreen_id \tseat_id \t\tbooking_id \t is_ticket_printed \t standard_price \t selling_price\n");
+					"tickets \t\tticket_id \tmovie_schedule_id \tscreen_id \tseat_id \tbooking_id \t is_ticket_printed \t standard_price \t selling_price\n");
 			while (rs.next()) {
 				resultLabel.append(i++ + "\t");
 				resultLabel.append("\t" + rs.getObject(1));
 				resultLabel.append("\t" + rs.getObject(2));
-				resultLabel.append("\t" + rs.getObject(3));
+				resultLabel.append("\t\t" + rs.getObject(3));
 				resultLabel.append("\t" + rs.getObject(4));
 				resultLabel.append("\t" + rs.getObject(5));
 				resultLabel.append("\t" + rs.getObject(6));
-				resultLabel.append("\t" + rs.getObject(7));
+				resultLabel.append("\t\t" + rs.getObject(7));
 				resultLabel.append("\t\t" + rs.getObject(8) + "\n");
 			}
 		} catch (SQLException e) {
@@ -841,7 +941,7 @@ class SQL {
 			ResultSet rs = stmt.executeQuery("select * from seats");
 			int i = 1;
 
-			resultLabel.append("\t\tseat_id \tscreen_id \tis_available\n");
+			resultLabel.append("seats \t\tseat_id \tscreen_id \t\tis_available\n");
 			while (rs.next()) {
 				resultLabel.append(i++ + "\t");
 				resultLabel.append("\t" + rs.getObject(1));
@@ -858,12 +958,13 @@ class SQL {
 			ResultSet rs = stmt.executeQuery("select * from members");
 			int i = 1;
 
-			resultLabel.append("\t\tmember_id \tname \tphone \temail\n");
+			resultLabel.append("members \t\tmember_id \tname \tphone \t\temail\n");
 			while (rs.next()) {
 				resultLabel.append(i++ + "\t");
 				resultLabel.append("\t" + rs.getObject(1));
 				resultLabel.append("\t" + rs.getObject(2));
-				resultLabel.append("\t\t" + rs.getObject(3) + "\n");
+				resultLabel.append("\t" + rs.getObject(3));
+				resultLabel.append("\t\t" + rs.getObject(4) + "\n");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -875,7 +976,7 @@ class SQL {
 			ResultSet rs = stmt.executeQuery("select * from booking");
 			int i = 1;
 
-			resultLabel.append("\t\tbooking_id \tpay_method \tpay_statement \t price \t member_id  \t date \n");
+			resultLabel.append("booking \t\tbooking_id \tpay_method \tpay_statement \t price \t member_id  \t date \n");
 			while (rs.next()) {
 				resultLabel.append(i++ + "\t");
 				resultLabel.append("\t" + rs.getObject(1));
@@ -883,7 +984,7 @@ class SQL {
 				resultLabel.append("\t" + rs.getObject(3));
 				resultLabel.append("\t" + rs.getObject(4));
 				resultLabel.append("\t" + rs.getObject(5));
-				resultLabel.append("\t\t" + rs.getObject(6) + "\n");
+				resultLabel.append("\t" + rs.getObject(6) + "\n");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -998,9 +1099,9 @@ class SQL {
 
 		table.setModel(model);
 	}
-	
+
 	public void ExtraMoviescheduleShow(JTable table, String sql) {
-		String[] attribute = { "상영일", "상영요일", "상영회차", "상영시작시간", "상영관번호", "좌석번호"};
+		String[] attribute = { "상영일", "상영요일", "상영회차", "상영시작시간", "상영관번호", "좌석번호" };
 		DefaultTableModel model = new DefaultTableModel(attribute, 0);
 		try {
 			Statement stmt = con.createStatement();
