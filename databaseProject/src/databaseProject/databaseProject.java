@@ -521,12 +521,10 @@ class Member extends JFrame {
 						+ "t.screen_id, t.seat_id, sc.seats, t.is_ticket_printed, t.standard_price, t.selling_price\r\n"
 						+ "from tickets as t \r\n" + "left join movie_schedule as ms\r\n"
 						+ "on t.movie_schedule_id = ms.movie_schedule_id \r\n" + "left join screens as sc\r\n"
-						+ "on t.screen_id = sc.screen_id\r\n" + "left join seats as s\r\n"
-						+ "on s.screen_id = sc.screen_id\r\n"
-						+ "where booking_id in (select booking_id from tickets\r\n"
-						+ "									where s.screen_id = " + total.getValueAt(tableSelectRow, 2)
-						+ " and s.seat_id = " + total.getValueAt(tableSelectRow, 3) + ");";
-
+						+ "on t.screen_id = sc.screen_id\r\n"
+						+ "where t.booking_id in (select booking_id from tickets\r\n"
+						+ "									where screen_id = " + total.getValueAt(tableSelectRow, 2)
+						+ " 								and seat_id = " + total.getValueAt(tableSelectRow, 3) + ");";
 				if (bookingtableopen)
 					sql.BookingClickShow(total, query);
 
