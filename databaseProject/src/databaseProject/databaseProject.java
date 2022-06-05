@@ -374,13 +374,13 @@ class Member extends JFrame {
 		});
 
 		button[1].addActionListener(event -> {
-			error.setText(null);
+			error.setText("");
 
 			String query;
 
 			query = "insert into booking (pay_method, pay_statement, price, member_id, pay_date) values (0, 1, '13,000원', "
 					+ memberid + ", '2021-01-01');";
-			sql.ExcecuteUpdateQuery(query);
+			sql.ExcecuteUpdateQuery(query, error);
 
 			int lastinsertid = sql.GetSQLInt("select last_insert_id() as booking_id;");
 			int moviescheduleid = sql.GetSQLInt("select movie_schedule_id\r\n" + "from movie_schedule \r\n"
@@ -391,41 +391,47 @@ class Member extends JFrame {
 			query = "insert into tickets (movie_schedule_id, screen_id, seat_id, booking_id, is_ticket_printed, standard_price, selling_price)\r\n"
 					+ "values (" + moviescheduleid + ", " + total.getValueAt(tableSelectRow, 8) + ", "
 					+ total.getValueAt(tableSelectRow, 9) + ", " + lastinsertid + ", 0, '15,000원', '13,000원');";
-			sql.ExcecuteUpdateQuery(query);
+			sql.ExcecuteUpdateQuery(query, error);
+			
+			query = "update seats set is_available = 0 where seat_id = " + total.getValueAt(tableSelectRow, 9) + ";";
+			if(error.getText().equals(""))
+				sql.ExcecuteUpdateQuery(query, error);
 
 			query = "update seats set is_available = 0 where seat_id = " + total.getValueAt(tableSelectRow, 9) + ";";
-			sql.ExcecuteUpdateQuery(query);
+			if(error.getText().equals(""))
+				sql.ExcecuteUpdateQuery(query, error);
 
 			MovieInquery(total);
 		});
 
 		button[2].addActionListener(event -> {
-			error.setText(null);
+			error.setText("");
 
 			BookingShow();
 		});
 		
 		button[3].addActionListener(event -> {
-			error.setText(null);
+			error.setText("");
 
 			BookingShow2();
 		});
 
 		button[4].addActionListener(event -> {
-			error.setText(null);
+			error.setText("");
 
 			String query = "delete from booking where booking_id in (select booking_id from tickets where seat_id = "
 					+ total.getValueAt(tableSelectRow, 12) + ");";
-			sql.ExcecuteUpdateQuery(query);
+			sql.ExcecuteUpdateQuery(query, error);
 
 			query = "update seats set is_available = 1 where seat_id = " + total.getValueAt(tableSelectRow, 12);
-			sql.ExcecuteUpdateQuery(query);
+			if(error.getText().equals(""))
+				sql.ExcecuteUpdateQuery(query, error);
 
 			BookingShow2();
 		});
 
 		button[5].addActionListener(event -> {
-			error.setText(null);
+			error.setText("");
 			
 			String query = "select m.movie_title, m.running_time, m.movie_rating, m.director, m.actor, \r\n"
 					+ "		m.genre, ms.screening_start_date, ms.screening_start_time, sc.screen_id, s.seat_id\r\n"
@@ -438,7 +444,7 @@ class Member extends JFrame {
 		});
 
 		button[6].addActionListener(event -> {
-			error.setText(null);
+			error.setText("");
 
 			String query = "select ms.screening_start_date, ms.screening_day, ms.screening_round, ms.screening_start_time, ms.screen_id, se.seat_id\r\n"
 					+ "from movie_schedule as ms\r\n" + "left join screens as s\r\n"
@@ -456,10 +462,8 @@ class Member extends JFrame {
 		});
 
 		button[7].addActionListener(event -> {
-			error.setText(null);
+			error.setText("");
 			
-			System.out.println(tableSelectRow);
-			System.out.println(extratableSelectRow);
 			int moviescheduleid = sql.GetSQLInt("select movie_schedule_id\r\n" + "from movie_schedule \r\n"
 					+ "where screen_id = " + extra.getValueAt(extratableSelectRow, 8) + " and screening_start_date = '"
 					+ extra.getValueAt(extratableSelectRow, 6) + "' and screening_start_time =  '"
@@ -471,26 +475,29 @@ class Member extends JFrame {
 					+ " where booking_id in (select booking_id from (select a.booking_id \r\n"
 					+ "									from tickets a where seat_id = "
 					+ total.getValueAt(tableSelectRow, 12) + ") tmp);";
-			sql.ExcecuteUpdateQuery(query);
+			sql.ExcecuteUpdateQuery(query, error);
 			
 			query = "update booking set pay_date = '2021-01-01' \r\n"
 					+ " where booking_id in (select booking_id from (select a.booking_id \r\n"
 					+ "									from tickets a where seat_id = "
 					+ extra.getValueAt(extratableSelectRow, 9) + ") tmp);";
-			sql.ExcecuteUpdateQuery(query);
+			if(error.getText().equals(""))
+				sql.ExcecuteUpdateQuery(query, error);
 
 			query = "update seats set is_available = 0 where seat_id = " + extra.getValueAt(extratableSelectRow, 9)
 					+ ";";
-			sql.ExcecuteUpdateQuery(query);
+			if(error.getText().equals(""))
+				sql.ExcecuteUpdateQuery(query, error);
 
 			query = "update seats set is_available = 1 where seat_id = " + total.getValueAt(tableSelectRow, 12) + ";";
-			sql.ExcecuteUpdateQuery(query);
+			if(error.getText().equals(""))
+				sql.ExcecuteUpdateQuery(query, error);
 
 			BookingShow2();
 		});
 
 		button[8].addActionListener(event -> {
-			error.setText(null);
+			error.setText("");
 
 			int moviescheduleid = sql.GetSQLInt("select movie_schedule_id\r\n" + "from movie_schedule \r\n"
 					+ "where screen_id = " + extra.getValueAt(extratableSelectRow, 4) + " and screening_start_date = '"
@@ -503,19 +510,22 @@ class Member extends JFrame {
 					+ " where booking_id in (select booking_id from (select a.booking_id \r\n"
 					+ "									from tickets a where seat_id = "
 					+ total.getValueAt(tableSelectRow, 12) + ") tmp);";
-			sql.ExcecuteUpdateQuery(query);
+			sql.ExcecuteUpdateQuery(query, error);
 			
 			query = "update booking set pay_date = '2021-01-01' \r\n"
 					+ " where booking_id in (select booking_id from (select a.booking_id \r\n"
 					+ "									from tickets a where seat_id = "
 					+ extra.getValueAt(extratableSelectRow, 5) + ") tmp);";
-			sql.ExcecuteUpdateQuery(query);
+			if(error.getText().equals(""))
+				sql.ExcecuteUpdateQuery(query, error);
 
 			query = "update seats set is_available = 0 where seat_id = " + extra.getValueAt(extratableSelectRow, 5) + ";";
-			sql.ExcecuteUpdateQuery(query);
+			if(error.getText().equals(""))
+				sql.ExcecuteUpdateQuery(query, error);
 
 			query = "update seats set is_available = 1 where seat_id = " + total.getValueAt(tableSelectRow, 12) + ";";
-			sql.ExcecuteUpdateQuery(query);
+			if(error.getText().equals(""))
+				sql.ExcecuteUpdateQuery(query, error);
 
 			BookingShow2();
 		});
@@ -791,16 +801,16 @@ class SQL {
 					"insert into members values (9, 'Ranique', '445-800-0015', 'rculter8@scientificamerican.com');");
 			stmt.executeUpdate("insert into members values (10, 'Jaclyn', '585-410-7043', 'jbouchier9@unesco.org');");
 
-			stmt.executeUpdate("insert into screens values (1, 500, 1);");
-			stmt.executeUpdate("insert into screens values (2, 250, 1);");
-			stmt.executeUpdate("insert into screens values (3, 500, 1);");
-			stmt.executeUpdate("insert into screens values (4, 650, 1);");
-			stmt.executeUpdate("insert into screens values (5, 200, 0);");
-			stmt.executeUpdate("insert into screens values (6, 155, 1);");
-			stmt.executeUpdate("insert into screens values (7, 140, 1);");
-			stmt.executeUpdate("insert into screens values (8, 124, 1);");
-			stmt.executeUpdate("insert into screens values (9, 450, 1);");
-			stmt.executeUpdate("insert into screens values (10, 123, 1);");
+			stmt.executeUpdate("insert into screens values (1, 2, 1);");
+			stmt.executeUpdate("insert into screens values (2, 3, 1);");
+			stmt.executeUpdate("insert into screens values (3, 2, 1);");
+			stmt.executeUpdate("insert into screens values (4, 3, 1);");
+			stmt.executeUpdate("insert into screens values (5, 2, 0);");
+			stmt.executeUpdate("insert into screens values (6, 2, 1);");
+			stmt.executeUpdate("insert into screens values (7, 2, 1);");
+			stmt.executeUpdate("insert into screens values (8, 2, 1);");
+			stmt.executeUpdate("insert into screens values (9, 1, 1);");
+			stmt.executeUpdate("insert into screens values (10, 1, 1);");
 
 			stmt.executeUpdate("insert into seats values (1, 1, 0);");
 			stmt.executeUpdate("insert into seats values (2, 2, 0);");
@@ -1037,11 +1047,12 @@ class SQL {
 		resultLabel.append("\n");
 	}
 
-	public void ExcecuteUpdateQuery(String sql) {
+	public void ExcecuteUpdateQuery(String sql, JLabel error) {
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
+			error.setText("잘못 입력했습니다.");
 			e.printStackTrace();
 		}
 	}
