@@ -375,33 +375,39 @@ class Member extends JFrame {
 
 		button[1].addActionListener(event -> {
 			error.setText("");
+			if (total.getValueAt(tableSelectRow, 10).equals("1")) {
+				String query;
 
-			String query;
-
-			query = "insert into booking (pay_method, pay_statement, price, member_id, pay_date) values (0, 1, '13,000원', "
-					+ memberid + ", '2021-01-01');";
-			sql.ExcecuteUpdateQuery(query, error);
-
-			int lastinsertid = sql.GetSQLInt("select last_insert_id() as booking_id;");
-			int moviescheduleid = sql.GetSQLInt("select movie_schedule_id\r\n" + "from movie_schedule \r\n"
-					+ "where screen_id = " + total.getValueAt(tableSelectRow, 8) + " and screening_start_date = '"
-					+ total.getValueAt(tableSelectRow, 6) + "' and screening_start_time =  '"
-					+ total.getValueAt(tableSelectRow, 7) + "';");
-
-			query = "insert into tickets (movie_schedule_id, screen_id, seat_id, booking_id, is_ticket_printed, standard_price, selling_price)\r\n"
-					+ "values (" + moviescheduleid + ", " + total.getValueAt(tableSelectRow, 8) + ", "
-					+ total.getValueAt(tableSelectRow, 9) + ", " + lastinsertid + ", 0, '15,000원', '13,000원');";
-			sql.ExcecuteUpdateQuery(query, error);
-			
-			query = "update seats set is_available = 0 where seat_id = " + total.getValueAt(tableSelectRow, 9) + ";";
-			if(error.getText().equals(""))
+				query = "insert into booking (pay_method, pay_statement, price, member_id, pay_date) values (0, 1, '13,000원', "
+						+ memberid + ", '2021-01-01');";
 				sql.ExcecuteUpdateQuery(query, error);
 
-			query = "update seats set is_available = 0 where seat_id = " + total.getValueAt(tableSelectRow, 9) + ";";
-			if(error.getText().equals(""))
+				int lastinsertid = sql.GetSQLInt("select last_insert_id() as booking_id;");
+
+				int moviescheduleid = sql.GetSQLInt("select movie_schedule_id\r\n" + "from movie_schedule \r\n"
+						+ "where screen_id = " + total.getValueAt(tableSelectRow, 8) + " and screening_start_date = '"
+						+ total.getValueAt(tableSelectRow, 6) + "' and screening_start_time =  '"
+						+ total.getValueAt(tableSelectRow, 7) + "';");
+
+				query = "insert into tickets (movie_schedule_id, screen_id, seat_id, booking_id, is_ticket_printed, standard_price, selling_price)\r\n"
+						+ "values (" + moviescheduleid + ", " + total.getValueAt(tableSelectRow, 8) + ", "
+						+ total.getValueAt(tableSelectRow, 9) + ", " + lastinsertid + ", 0, '15,000원', '13,000원');";
 				sql.ExcecuteUpdateQuery(query, error);
 
-			MovieInquery(total);
+				query = "update seats set is_available = 0 where seat_id = " + total.getValueAt(tableSelectRow, 9)
+						+ ";";
+				if (error.getText().equals(""))
+					sql.ExcecuteUpdateQuery(query, error);
+
+				query = "update seats set is_available = 0 where seat_id = " + total.getValueAt(tableSelectRow, 9)
+						+ ";";
+				if (error.getText().equals(""))
+					sql.ExcecuteUpdateQuery(query, error);
+
+				MovieInquery(total);
+			}
+			else
+				error.setText("잘못 입력했습니다.");
 		});
 
 		button[2].addActionListener(event -> {
@@ -602,10 +608,10 @@ class Member extends JFrame {
 	public void MovieInquery(JTable table) {
 		String where[] = { "", "", "", "" };
 		String query = "select m.movie_title, m.running_time, m.movie_rating, m.director, m.actor, m.genre,\r\n"
-				+ "		ms.screening_start_date, ms.screening_start_time, sc.screen_id, s.seat_id\r\n"
+				+ "		ms.screening_start_date, ms.screening_start_time, sc.screen_id, s.seat_id, s.is_available as 사용가능\r\n"
 				+ "from movies as m\r\n" + "left join movie_schedule as ms\r\n" + "on m.movie_id = ms.movie_id\r\n"
 				+ "left join screens as sc\r\n" + "on ms.screen_id = sc.screen_id \r\n" + "left join seats as s\r\n"
-				+ "on ms.screen_id = s.screen_id\r\n" + "where sc.is_available = 1 and s.is_available = 1";
+				+ "on ms.screen_id = s.screen_id\r\n";
 		int f = 0;
 
 		where[0] = movieName.getText();
@@ -635,7 +641,7 @@ class Member extends JFrame {
 			query = query + "genre = '" + where[3] + "'";
 		}
 
-		sql.MovieSearch(table, error, query);
+		sql.MovieSearch2(table, error, query);
 	}
 
 	public void BookingShow() {
@@ -1075,7 +1081,7 @@ class SQL {
 	}
 
 	public void MovieSearch(JTable table, JLabel error, String sql) {
-		Object[] attribute = { "영화명", "상영시간", "상영등급", "감독명", "배우명", "장르", "상영시작일", "상영시작시간", "상영관", "좌석번호" };
+		Object[] attribute = { "영화명", "상영시간", "상영등급", "감독명", "배우명", "장르", "상영시작일", "상영시작시간", "상영관", "좌석번호",};
 		DefaultTableModel model = new DefaultTableModel(attribute, 0);
 
 		try {
@@ -1094,6 +1100,37 @@ class SQL {
 				v.add(rs.getString(8));
 				v.add(rs.getString(9));
 				v.add(rs.getString(10));
+				model.addRow(v);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			error.setText("잘못 입력했습니다.");
+		}
+
+		table.setModel(model);
+	}
+	
+	public void MovieSearch2(JTable table, JLabel error, String sql) {
+		Object[] attribute = { "영화명", "상영시간", "상영등급", "감독명", "배우명", "장르", "상영시작일", "상영시작시간", "상영관", "좌석번호", "사용가능" };
+		DefaultTableModel model = new DefaultTableModel(attribute, 0);
+
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				Vector<Object> v = new Vector<Object>();
+				v.add(rs.getString(1));
+				v.add(rs.getString(2));
+				v.add(rs.getString(3));
+				v.add(rs.getString(4));
+				v.add(rs.getString(5));
+				v.add(rs.getString(6));
+				v.add(rs.getString(7));
+				v.add(rs.getString(8));
+				v.add(rs.getString(9));
+				v.add(rs.getString(10));
+				v.add(rs.getString(11));
 				model.addRow(v);
 			}
 		} catch (SQLException e) {
