@@ -19,19 +19,19 @@ class Title extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(2000, 2000);
-		setTitle("18011560/Á¶¹Î¼ö, 18011480/ÀÌÁøÇü");
+		setTitle("18011560/ì¡°ë¯¼ìˆ˜, 18011480/ì´ì§„í˜•");
 
-		button[0] = new JButton("°ü¸®ÀÚ");
+		button[0] = new JButton("ê´€ë¦¬ì");
 		button[0].setSize(300, 300);
 		button[0].setLocation(700, 300);
 		c1.add(button[0]);
 
-		button[1] = new JButton("È¸¿ø");
+		button[1] = new JButton("íšŒì›");
 		button[1].setSize(300, 300);
 		button[1].setLocation(1000, 300);
 		c1.add(button[1]);
 
-		JLabel memberidlabel = new JLabel("È¸¿ø¾ÆÀÌµğ");
+		JLabel memberidlabel = new JLabel("íšŒì›ì•„ì´ë””");
 		memberidlabel.setHorizontalAlignment(JLabel.CENTER);
 		memberidlabel.setLocation(1000, 200);
 		memberidlabel.setSize(100, 50);
@@ -68,7 +68,7 @@ class Manager extends JFrame {
 	JLabel error = new JLabel();
 	JTextArea result = new JTextArea();
 	JScrollPane scrollPane = new JScrollPane(result);
-	String modelist[] = { "ÀÔ·Â", "º¯°æ", "»èÁ¦" };
+	String modelist[] = { "ì…ë ¥", "ë³€ê²½", "ì‚­ì œ" };
 	JComboBox<String> mode = new JComboBox<String>(modelist);
 	String tablelist[] = { "movies", "movie_schedule", "screens", "tickets", "seats", "members", "booking" };
 	JComboBox<String> table = new JComboBox<String>(tablelist);
@@ -81,31 +81,31 @@ class Manager extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(2000, 2000);
-		setTitle("18011560/Á¶¹Î¼ö");
+		setTitle("18011560/ì¡°ë¯¼ìˆ˜, 18011480/ì´ì§„í˜•");
 
-		button[0] = new JButton("ÃÊ±âÈ­");
+		button[0] = new JButton("ì´ˆê¸°í™”");
 		button[0].setSize(200, 100);
 		button[0].setLocation(0, 0);
 		c1.add(button[0]);
 
-		button[1] = new JButton("ÀÔ·Â/»èÁ¦/º¯°æ");
+		button[1] = new JButton("ì…ë ¥/ì‚­ì œ/ë³€ê²½");
 		button[1].setSize(200, 100);
 		button[1].setLocation(750, 120);
 		c1.add(button[1]);
 
-		button[2] = new JButton("ÀüÃ¼ Å×ÀÌºí º¸±â");
+		button[2] = new JButton("ì „ì²´ í…Œì´ë¸” ë³´ê¸°");
 		button[2].setSize(200, 100);
 		button[2].setLocation(200, 0);
 		c1.add(button[2]);
 
-		JLabel label = new JLabel("Á¶°Ç½Ä");
+		JLabel label = new JLabel("ì¡°ê±´ì‹");
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setVerticalAlignment(JLabel.CENTER);
 		label.setSize(100, 10);
 		label.setLocation(250, 180);
 		c1.add(label);
 		
-		JLabel label1 = new JLabel("º¯°æÇÒ °ª");
+		JLabel label1 = new JLabel("ë³€ê²½í•  ê°’");
 		label1.setHorizontalAlignment(JLabel.CENTER);
 		label1.setVerticalAlignment(JLabel.CENTER);
 		label1.setSize(100, 10);
@@ -164,14 +164,14 @@ class Manager extends JFrame {
 			String query = "";
 
 			switch (mode.getSelectedItem().toString()) {
-			case "ÀÔ·Â":
+			case "ì…ë ¥":
 				query = jt2.getText();
 				break;
-			case "º¯°æ":
+			case "ë³€ê²½":
 				query = "update " + table.getSelectedItem().toString() + " set " + attribute.getSelectedItem().toString() + " = " + jt3.getText() + " where " + jt2.getText() + ";";
 				System.out.println(query);
 				break;
-			case "»èÁ¦":
+			case "ì‚­ì œ":
 				query = "delete from " + table.getSelectedItem().toString() + " where " + jt2.getText() + ";";
 				break;
 			default:
@@ -263,54 +263,54 @@ class Member extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(2000, 2000);
-		setTitle("18011560/Á¶¹Î¼ö");
+		setTitle("18011560/ì¡°ë¯¼ìˆ˜, 18011480/ì´ì§„í˜•");
 
-		button[0] = new JButton("¿µÈ­ Á¶È¸");
+		button[0] = new JButton("ì˜í™” ì¡°íšŒ");
 		button[0].setSize(200, 100);
 		button[0].setLocation(0, 0);
 		c1.add(button[0]);
 
-		button[1] = new JButton("¿¹¸Å");
+		button[1] = new JButton("ì˜ˆë§¤");
 		button[1].setSize(200, 100);
 		button[1].setLocation(200, 0);
 		c1.add(button[1]);
 
-		button[2] = new JButton("¿¹¸Å ³»¿ª Á¶È¸1");
+		button[2] = new JButton("ì˜ˆë§¤ ë‚´ì—­ ì¡°íšŒ1");
 		button[2].setSize(200, 100);
 		button[2].setLocation(400, 0);
 		c1.add(button[2]);
 
-		button[3] = new JButton("¿¹¸Å ³»¿ª Á¶È¸2");
+		button[3] = new JButton("ì˜ˆë§¤ ë‚´ì—­ ì¡°íšŒ2");
 		button[3].setSize(200, 100);
 		button[3].setLocation(600, 0);
 		c1.add(button[3]);
 
-		button[4] = new JButton("¿¹¸Å »èÁ¦");
+		button[4] = new JButton("ì˜ˆë§¤ ì‚­ì œ");
 		button[4].setSize(200, 100);
 		button[4].setLocation(800, 0);
 		c1.add(button[4]);
 
-		button[5] = new JButton("´Ù¸¥ ¿µÈ­ Á¶È¸");
+		button[5] = new JButton("ë‹¤ë¥¸ ì˜í™” ì¡°íšŒ");
 		button[5].setSize(200, 100);
 		button[5].setLocation(1000, 0);
 		c1.add(button[5]);
 
-		button[6] = new JButton("´Ù¸¥ »ó¿µ ÀÏÁ¤ Á¶È¸");
+		button[6] = new JButton("ë‹¤ë¥¸ ìƒì˜ ì¼ì • ì¡°íšŒ");
 		button[6].setSize(200, 100);
 		button[6].setLocation(1200, 0);
 		c1.add(button[6]);
 
-		button[7] = new JButton("¿µÈ­ º¯°æ");
+		button[7] = new JButton("ì˜í™” ë³€ê²½");
 		button[7].setSize(200, 100);
 		button[7].setLocation(1400, 0);
 		c1.add(button[7]);
 		
-		button[8] = new JButton("»ó¿µ ÀÏÁ¤ º¯°æ");
+		button[8] = new JButton("ìƒì˜ ì¼ì • ë³€ê²½");
 		button[8].setSize(200, 100);
 		button[8].setLocation(1600, 0);
 		c1.add(button[8]);
 
-		JLabel label1 = new JLabel("¿µÈ­¸í");
+		JLabel label1 = new JLabel("ì˜í™”ëª…");
 		label1.setHorizontalAlignment(JLabel.CENTER);
 		label1.setSize(50, 50);
 		label1.setLocation(0, 100);
@@ -319,7 +319,7 @@ class Member extends JFrame {
 		movieName.setLocation(50, 110);
 		c1.add(movieName);
 
-		JLabel label2 = new JLabel("°¨µ¶¸í");
+		JLabel label2 = new JLabel("ê°ë…ëª…");
 		label2.setHorizontalAlignment(JLabel.CENTER);
 		label2.setSize(50, 50);
 		label2.setLocation(200, 100);
@@ -328,7 +328,7 @@ class Member extends JFrame {
 		directorName.setLocation(250, 110);
 		c1.add(directorName);
 
-		JLabel label3 = new JLabel("¹è¿ì¸í");
+		JLabel label3 = new JLabel("ë°°ìš°ëª…");
 		label3.setHorizontalAlignment(JLabel.CENTER);
 		label3.setSize(50, 50);
 		label3.setLocation(400, 100);
@@ -337,7 +337,7 @@ class Member extends JFrame {
 		actorName.setLocation(450, 110);
 		c1.add(actorName);
 
-		JLabel label4 = new JLabel("Àå¸£");
+		JLabel label4 = new JLabel("ì¥ë¥´");
 		label4.setHorizontalAlignment(JLabel.CENTER);
 		label4.setSize(50, 50);
 		label4.setLocation(600, 100);
@@ -378,7 +378,7 @@ class Member extends JFrame {
 			if (total.getValueAt(tableSelectRow, 10).equals("1")) {
 				String query;
 
-				query = "insert into booking (pay_method, pay_statement, price, member_id, pay_date) values (0, 1, '13,000¿ø', "
+				query = "insert into booking (pay_method, pay_statement, price, member_id, pay_date) values (0, 1, '13,000ì›', "
 						+ memberid + ", '2021-01-01');";
 				sql.ExcecuteUpdateQuery(query, error);
 
@@ -391,7 +391,7 @@ class Member extends JFrame {
 
 				query = "insert into tickets (movie_schedule_id, screen_id, seat_id, booking_id, is_ticket_printed, standard_price, selling_price)\r\n"
 						+ "values (" + moviescheduleid + ", " + total.getValueAt(tableSelectRow, 8) + ", "
-						+ total.getValueAt(tableSelectRow, 9) + ", " + lastinsertid + ", 0, '15,000¿ø', '13,000¿ø');";
+						+ total.getValueAt(tableSelectRow, 9) + ", " + lastinsertid + ", 0, '15,000ì›', '13,000ì›');";
 				sql.ExcecuteUpdateQuery(query, error);
 
 				query = "update seats set is_available = 0 where seat_id = " + total.getValueAt(tableSelectRow, 9)
@@ -407,7 +407,7 @@ class Member extends JFrame {
 				MovieInquery(total);
 			}
 			else
-				error.setText("Àß¸ø ÀÔ·ÂÇß½À´Ï´Ù.");
+				error.setText("ì˜ëª» ì…ë ¥í–ˆìŠµë‹ˆë‹¤.");
 		});
 
 		button[2].addActionListener(event -> {
@@ -608,7 +608,7 @@ class Member extends JFrame {
 	public void MovieInquery(JTable table) {
 		String where[] = { "", "", "", "" };
 		String query = "select m.movie_title, m.running_time, m.movie_rating, m.director, m.actor, m.genre,\r\n"
-				+ "		ms.screening_start_date, ms.screening_start_time, sc.screen_id, s.seat_id, s.is_available as »ç¿ë°¡´É\r\n"
+				+ "		ms.screening_start_date, ms.screening_start_time, sc.screen_id, s.seat_id, s.is_available as ì‚¬ìš©ê°€ëŠ¥\r\n"
 				+ "from movies as m\r\n" + "left join movie_schedule as ms\r\n" + "on m.movie_id = ms.movie_id\r\n"
 				+ "left join screens as sc\r\n" + "on ms.screen_id = sc.screen_id \r\n" + "left join seats as s\r\n"
 				+ "on ms.screen_id = s.screen_id\r\n";
@@ -682,15 +682,15 @@ class SQL {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			System.out.println("µå¶óÀÌ¹ö ·Îµå ¼º°ø");
+			System.out.println("ë“œë¼ì´ë²„ ë¡œë“œ ì„±ê³µ");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			System.out.println("µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á ÁØºñ...");
+			System.out.println("ë°ì´í„°ë² ì´ìŠ¤ ì—°ê²° ì¤€ë¹„...");
 			con = DriverManager.getConnection(url, userid, pwd);
-			System.out.println("µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á ¼º°ø");
+			System.out.println("ë°ì´í„°ë² ì´ìŠ¤ ì—°ê²° ì„±ê³µ");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -772,28 +772,28 @@ class SQL {
 					+ "    ON DELETE CASCADE\r\n" + "    ON UPDATE CASCADE)\r\n" + "ENGINE = InnoDB;");
 
 			stmt.executeUpdate(
-					"INSERT INTO movies VALUES(1, '´ÚÅÍ ½ºÆ®·¹ÀÎÁö', '2½Ã°£ 20ºĞ', '15¼¼', 'Á¶¹Î¼ö', '¼­ÁøÇü', 'ÆÇÅ¸Áö', '¾îÂ¿Æ¼ºñ ¾È±ÃÆ¼ºñ ¾È¹°Æ¼ºñ', STR_TO_DATE('2021-01-09','%Y-%m-%d'));");
+					"INSERT INTO movies VALUES(1, 'ë‹¥í„° ìŠ¤íŠ¸ë ˆì¸ì§€', '2ì‹œê°„ 20ë¶„', '15ì„¸', 'ì¡°ë¯¼ìˆ˜', 'ì„œì§„í˜•', 'íŒíƒ€ì§€', 'ì˜í™”ì„¤ëª…ì„¤ëª…', STR_TO_DATE('2021-01-09','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"INSERT INTO movies VALUES(2, '¹üÁËµµ½Ã1', '2½Ã°£ 21ºĞ', '18¼¼', 'Á¶¹Î¼ö', 'ÀÌÁøÇü', '½º¸±·¯', '¾îÂ¿Æ¼ºñ ¾È±ÃÆ¼ºñ ¾È¹°Æ¼ºñ', STR_TO_DATE('2021-02-09','%Y-%m-%d'));");
+					"INSERT INTO movies VALUES(2, 'ë²”ì£„ë„ì‹œ1', '2ì‹œê°„ 21ë¶„', '18ì„¸', 'ì¡°ë¯¼ìˆ˜', 'ì´ì§„í˜•', 'ìŠ¤ë¦´ëŸ¬', 'ì˜í™”ì„¤ëª…ì„¤ëª…', STR_TO_DATE('2021-02-09','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"INSERT INTO movies VALUES(3, '¹üÁËµµ½Ã3', '2½Ã°£ 22ºĞ', '12¼¼', 'ÃÖ¹Î¼ö', '±¹ÁøÇü', 'È£·¯', '¾îÂ¿Æ¼ºñ ¾È±ÃÆ¼ºñ ¾È¹°Æ¼ºñ', STR_TO_DATE('2021-03-09','%Y-%m-%d'));");
+					"INSERT INTO movies VALUES(3, 'ë²”ì£„ë„ì‹œ3', '2ì‹œê°„ 22ë¶„', '12ì„¸', 'ìµœë¯¼ìˆ˜', 'êµ­ì§„í˜•', 'í˜¸ëŸ¬', 'ì˜í™”ì„¤ëª…ì„¤ëª…', STR_TO_DATE('2021-03-09','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"INSERT INTO movies VALUES(4, '¹üÁËµµ½Ã4', '2½Ã°£ 23ºĞ', '18¼¼', '¹Ú¹Î¼ö', '¿ÀÁøÇü', 'ÄÚ¹Ìµğ', '¾îÂ¿Æ¼ºñ ¾È±ÃÆ¼ºñ ¾È¹°Æ¼ºñ', STR_TO_DATE('2021-04-09','%Y-%m-%d'));");
+					"INSERT INTO movies VALUES(4, 'ë²”ì£„ë„ì‹œ4', '2ì‹œê°„ 23ë¶„', '18ì„¸', 'ë°•ë¯¼ìˆ˜', 'ì˜¤ì§„í˜•', 'ì½”ë¯¸ë””', 'ì˜í™”ì„¤ëª…ì„¤ëª…', STR_TO_DATE('2021-04-09','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"INSERT INTO movies VALUES(5, '¹üÁËµµ½Ã5', '2½Ã°£ 24ºĞ', '15¼¼', '±è¹Î¼ö','ÀÓÁøÇü', 'È£·¯', '¾îÂ¿Æ¼ºñ ¾È±ÃÆ¼ºñ ¾È¹°Æ¼ºñ', STR_TO_DATE('2021-05-09','%Y-%m-%d'));");
+					"INSERT INTO movies VALUES(5, 'ë²”ì£„ë„ì‹œ5', '2ì‹œê°„ 24ë¶„', '15ì„¸', 'ê¹€ë¯¼ìˆ˜','ì„ì§„í˜•', 'í˜¸ëŸ¬', 'ì˜í™”ì„¤ëª…ì„¤ëª…', STR_TO_DATE('2021-05-09','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"INSERT INTO movies VALUES(6, '¹üÁËµµ½Ã6', '2½Ã°£ 25ºĞ', '12¼¼', 'ÀÓ¹Î¼ö', '±èÁøÇü', '·Î¸Ç½º', '¾îÂ¿Æ¼ºñ ¾È±ÃÆ¼ºñ ¾È¹°Æ¼ºñ', STR_TO_DATE('2021-06-09','%Y-%m-%d'));");
+					"INSERT INTO movies VALUES(6, 'ë²”ì£„ë„ì‹œ6', '2ì‹œê°„ 25ë¶„', '12ì„¸', 'ì„ë¯¼ìˆ˜', 'ê¹€ì§„í˜•', 'ë¡œë§¨ìŠ¤', 'ì˜í™”ì„¤ëª…ì„¤ëª…', STR_TO_DATE('2021-06-09','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"INSERT INTO movies VALUES(7, '¹üÁËµµ½Ã6', '2½Ã°£ 26ºĞ', 'ÀüÃ¼ÀÌ¿ë°¡', '¿À¹Î¼ö', '¹ÚÁøÇü', 'ÆÇÅ¸Áö', '¾îÂ¿Æ¼ºñ ¾È±ÃÆ¼ºñ ¾È¹°Æ¼ºñ', STR_TO_DATE('2021-07-09','%Y-%m-%d'));");
+					"INSERT INTO movies VALUES(7, 'ë²”ì£„ë„ì‹œ6', '2ì‹œê°„ 26ë¶„', 'ì „ì²´ì´ìš©ê°€', 'ì˜¤ë¯¼ìˆ˜', 'ë°•ì§„í˜•', 'íŒíƒ€ì§€', 'ì˜í™”ì„¤ëª…ì„¤ëª…', STR_TO_DATE('2021-07-09','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"INSERT INTO movies VALUES(8, '¹üÁËµµ½Ã7', '2½Ã°£ 27ºĞ', '15¼¼', '±¹¹Î¼ö', 'ÃÖÁøÇü', '¾×¼Ç', '¾îÂ¿Æ¼ºñ ¾È±ÃÆ¼ºñ ¾È¹°Æ¼ºñ', STR_TO_DATE('2021-08-09','%Y-%m-%d'));");
+					"INSERT INTO movies VALUES(8, 'ë²”ì£„ë„ì‹œ7', '2ì‹œê°„ 27ë¶„', '15ì„¸', 'êµ­ë¯¼ìˆ˜', 'ìµœì§„í˜•', 'ì•¡ì…˜', 'ì˜í™”ì„¤ëª…ì„¤ëª…', STR_TO_DATE('2021-08-09','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"INSERT INTO movies VALUES(9, '¹üÁËµµ½Ã8', '2½Ã°£ 28ºĞ', '18¼¼', 'ÀÌ¹Î¼ö', 'Á¶ÁøÇü', '½º¸±·¯', '¾îÂ¿Æ¼ºñ ¾È±ÃÆ¼ºñ ¾È¹°Æ¼ºñ', STR_TO_DATE('2021-09-09','%Y-%m-%d'));");
+					"INSERT INTO movies VALUES(9, 'ë²”ì£„ë„ì‹œ8', '2ì‹œê°„ 28ë¶„', '18ì„¸', 'ì´ë¯¼ìˆ˜', 'ì¡°ì§„í˜•', 'ìŠ¤ë¦´ëŸ¬', 'ì˜í™”ì„¤ëª…ì„¤ëª…', STR_TO_DATE('2021-09-09','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"INSERT INTO movies VALUES(10, '¹üÁËµµ½Ã2', '2½Ã°£ 29ºĞ', '15¼¼', '¼­¹Î¼ö', '¸®ÁøÇü', '¾×¼Ç', '¾îÂ¿Æ¼ºñ ¾È±ÃÆ¼ºñ ¾È¹°Æ¼ºñ', STR_TO_DATE('2021-10-09','%Y-%m-%d'));");
-
+					"INSERT INTO movies VALUES(10, 'ë²”ì£„ë„ì‹œ2', '2ì‹œê°„ 29ë¶„', '15ì„¸', 'ì„œë¯¼ìˆ˜', 'ë¦¬ì§„í˜•', 'ì•¡ì…˜', 'ì˜í™”ì„¤ëª…ì„¤ëª…', STR_TO_DATE('2021-10-09','%Y-%m-%d'));");
+			
 			stmt.executeUpdate(
-					"insert into members values (1, 'Brooke', '735-214-8098', 'bmarlon0@constantcontact.com');");
+					"insert into members values (1, 'í™ì„±ì² ', '735-214-8098', 'bmarlon0@constantcontact.com');");
 			stmt.executeUpdate(
 					"insert into members values (2, 'Martita', '964-716-5566', 'mbusk1@printfriendly.com');");
 			stmt.executeUpdate(
@@ -840,59 +840,59 @@ class SQL {
 			stmt.executeUpdate("insert into seats values (20, 4, 1);");
 
 			stmt.executeUpdate(
-					"insert into movie_schedule values(1, 1, 1, STR_TO_DATE('2021-01-09','%Y-%m-%d'), '¿ù¿äÀÏ', '1È¸Â÷', '09½Ã 15ºĞ');");
+					"insert into movie_schedule values(1, 1, 1, STR_TO_DATE('2021-01-09','%Y-%m-%d'), 'ì›”ìš”ì¼', '1íšŒì°¨', '09ì‹œ 15ë¶„');");
 			stmt.executeUpdate(
-					"insert into movie_schedule values(2, 2, 2, STR_TO_DATE('2021-02-09','%Y-%m-%d'), 'È­¿äÀÏ', '2È¸Â÷', '10½Ã 15ºĞ');");
+					"insert into movie_schedule values(2, 2, 2, STR_TO_DATE('2021-02-09','%Y-%m-%d'), 'í™”ìš”ì¼', '2íšŒì°¨', '10ì‹œ 15ë¶„');");
 			stmt.executeUpdate(
-					"insert into movie_schedule values(3, 3, 3, STR_TO_DATE('2021-03-09','%Y-%m-%d'), '¼ö¿äÀÏ', '2È¸Â÷', '11½Ã 15ºĞ');");
+					"insert into movie_schedule values(3, 3, 3, STR_TO_DATE('2021-03-09','%Y-%m-%d'), 'ìˆ˜ìš”ì¼', '2íšŒì°¨', '11ì‹œ 15ë¶„');");
 			stmt.executeUpdate(
-					"insert into movie_schedule values(4, 4, 4, STR_TO_DATE('2021-04-09','%Y-%m-%d'), '¸ñ¿äÀÏ', '3È¸Â÷', '10½Ã 15ºĞ');");
+					"insert into movie_schedule values(4, 4, 4, STR_TO_DATE('2021-04-09','%Y-%m-%d'), 'ëª©ìš”ì¼', '3íšŒì°¨', '10ì‹œ 15ë¶„');");
 			stmt.executeUpdate(
-					"insert into movie_schedule values(5, 5, 5, STR_TO_DATE('2021-05-09','%Y-%m-%d'), '±İ¿äÀÏ', '5È¸Â÷', '18½Ã 15ºĞ');");
+					"insert into movie_schedule values(5, 5, 5, STR_TO_DATE('2021-05-09','%Y-%m-%d'), 'ê¸ˆìš”ì¼', '5íšŒì°¨', '18ì‹œ 15ë¶„');");
 			stmt.executeUpdate(
-					"insert into movie_schedule values(6, 6, 6, STR_TO_DATE('2021-06-09','%Y-%m-%d'), '¿ù¿äÀÏ', '2È¸Â÷', '10½Ã 15ºĞ');");
+					"insert into movie_schedule values(6, 6, 6, STR_TO_DATE('2021-06-09','%Y-%m-%d'), 'ì›”ìš”ì¼', '2íšŒì°¨', '10ì‹œ 15ë¶„');");
 			stmt.executeUpdate(
-					"insert into movie_schedule values(7, 7, 7, STR_TO_DATE('2021-07-09','%Y-%m-%d'), '¿ù¿äÀÏ', '7È¸Â÷', '22½Ã 15ºĞ');");
+					"insert into movie_schedule values(7, 7, 7, STR_TO_DATE('2021-07-09','%Y-%m-%d'), 'ì›”ìš”ì¼', '7íšŒì°¨', '22ì‹œ 15ë¶„');");
 			stmt.executeUpdate(
-					"insert into movie_schedule values(8, 8, 8, STR_TO_DATE('2021-08-09','%Y-%m-%d'), '¼ö¿äÀÏ', '2È¸Â÷', '11½Ã 15ºĞ');");
+					"insert into movie_schedule values(8, 8, 8, STR_TO_DATE('2021-08-09','%Y-%m-%d'), 'ìˆ˜ìš”ì¼', '2íšŒì°¨', '11ì‹œ 15ë¶„');");
 			stmt.executeUpdate(
-					"insert into movie_schedule values(9, 9, 9, STR_TO_DATE('2021-09-09','%Y-%m-%d'), '±İ¿äÀÏ', '4È¸Â÷', '13½Ã 15ºĞ');");
+					"insert into movie_schedule values(9, 9, 9, STR_TO_DATE('2021-09-09','%Y-%m-%d'), 'ê¸ˆìš”ì¼', '4íšŒì°¨', '13ì‹œ 15ë¶„');");
 			stmt.executeUpdate(
-					"insert into movie_schedule values(10, 10, 10, STR_TO_DATE('2021-10-09','%Y-%m-%d'), 'ÀÏ¿äÀÏ', '1È¸Â÷', '09½Ã 15ºĞ');");
+					"insert into movie_schedule values(10, 10, 10, STR_TO_DATE('2021-10-09','%Y-%m-%d'), 'ì¼ìš”ì¼', '1íšŒì°¨', '09ì‹œ 15ë¶„');");
 			stmt.executeUpdate(
-					"insert into movie_schedule values(11, 1, 8, STR_TO_DATE('2021-01-10','%Y-%m-%d'), 'È­¿äÀÏ', '2È¸Â÷', '09½Ã 20ºĞ');");
+					"insert into movie_schedule values(11, 1, 8, STR_TO_DATE('2021-01-10','%Y-%m-%d'), 'í™”ìš”ì¼', '2íšŒì°¨', '09ì‹œ 20ë¶„');");
 
 			stmt.executeUpdate(
-					"insert into booking values(1, 'Ä«µå', 1, '13,000¿ø', 1, STR_TO_DATE('2021-01-08','%Y-%m-%d'));");
+					"insert into booking values(1, 'ì¹´ë“œ', 1, '13,000ì›', 1, STR_TO_DATE('2021-01-08','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"insert into booking values(2, 'Ä«µå', 1, '13,000¿ø', 2, STR_TO_DATE('2021-02-09','%Y-%m-%d'));");
+					"insert into booking values(2, 'ì¹´ë“œ', 1, '13,000ì›', 2, STR_TO_DATE('2021-02-09','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"insert into booking values(3, 'Çö±İ', 1, '13,000¿ø', 3, STR_TO_DATE('2021-03-08','%Y-%m-%d'));");
+					"insert into booking values(3, 'í˜„ê¸ˆ', 1, '13,000ì›', 3, STR_TO_DATE('2021-03-08','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"insert into booking values(4, 'Ä«µå', 1, '13,000¿ø', 4, STR_TO_DATE('2021-04-08','%Y-%m-%d'));");
+					"insert into booking values(4, 'ì¹´ë“œ', 1, '13,000ì›', 4, STR_TO_DATE('2021-04-08','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"insert into booking values(5, 'Çö±İ', 1, '13,000¿ø', 5, STR_TO_DATE('2021-05-08','%Y-%m-%d'));");
+					"insert into booking values(5, 'í˜„ê¸ˆ', 1, '13,000ì›', 5, STR_TO_DATE('2021-05-08','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"insert into booking values(6, 'Ä«µå', 1, '13,000¿ø', 6, STR_TO_DATE('2021-06-08','%Y-%m-%d'));");
+					"insert into booking values(6, 'ì¹´ë“œ', 1, '13,000ì›', 6, STR_TO_DATE('2021-06-08','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"insert into booking values(7, '¹«ÅëÀå', 0, '13,000¿ø', 7, STR_TO_DATE('2021-07-08','%Y-%m-%d'));");
+					"insert into booking values(7, 'ë¬´í†µì¥', 0, '13,000ì›', 7, STR_TO_DATE('2021-07-08','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"insert into booking values(8, 'Çö±İ', 1, '13,000¿ø', 8, STR_TO_DATE('2021-08-08','%Y-%m-%d'));");
+					"insert into booking values(8, 'í˜„ê¸ˆ', 1, '13,000ì›', 8, STR_TO_DATE('2021-08-08','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"insert into booking values(9, 'Çö±İ', 1, '13,000¿ø', 9, STR_TO_DATE('2021-09-08','%Y-%m-%d'));");
+					"insert into booking values(9, 'í˜„ê¸ˆ', 1, '13,000ì›', 9, STR_TO_DATE('2021-09-08','%Y-%m-%d'));");
 			stmt.executeUpdate(
-					"insert into booking values(10, 'Ä«µå', 1, '13,000¿ø', 10, STR_TO_DATE('2021-10-08','%Y-%m-%d'));");
+					"insert into booking values(10, 'ì¹´ë“œ', 1, '13,000ì›', 10, STR_TO_DATE('2021-10-08','%Y-%m-%d'));");
 
-			stmt.executeUpdate("insert into tickets values(1, 1, 1, 1, 1, 1, '15,000¿ø', '13,000¿ø');");
-			stmt.executeUpdate("insert into tickets values(2, 2, 2, 2, 2, 2, '15,000¿ø', '13,000¿ø');");
-			stmt.executeUpdate("insert into tickets values(3, 3, 3, 3, 3, 3, '15,000¿ø', '13,000¿ø');");
-			stmt.executeUpdate("insert into tickets values(4, 4, 4, 4, 4, 4, '15,000¿ø', '13,000¿ø');");
-			stmt.executeUpdate("insert into tickets values(5, 5, 5, 5, 5, 5, '15,000¿ø', '13,000¿ø');");
-			stmt.executeUpdate("insert into tickets values(6, 6, 6, 6, 6, 6, '15,000¿ø', '13,000¿ø');");
-			stmt.executeUpdate("insert into tickets values(7, 7, 7, 7, 7, 7, '15,000¿ø', '13,000¿ø');");
-			stmt.executeUpdate("insert into tickets values(8, 8, 8, 8, 8, 8, '15,000¿ø', '13,000¿ø');");
-			stmt.executeUpdate("insert into tickets values(9, 9, 9, 9, 9, 9, '15,000¿ø', '13,000¿ø');");
-			stmt.executeUpdate("insert into tickets values(10, 10, 10, 10, 10, 10, '15,000¿ø', '13,000¿ø');");
+			stmt.executeUpdate("insert into tickets values(1, 1, 1, 1, 1, 1, '15,000ì›', '13,000ì›');");
+			stmt.executeUpdate("insert into tickets values(2, 2, 2, 2, 2, 2, '15,000ì›', '13,000ì›');");
+			stmt.executeUpdate("insert into tickets values(3, 3, 3, 3, 3, 3, '15,000ì›', '13,000ì›');");
+			stmt.executeUpdate("insert into tickets values(4, 4, 4, 4, 4, 4, '15,000ì›', '13,000ì›');");
+			stmt.executeUpdate("insert into tickets values(5, 5, 5, 5, 5, 5, '15,000ì›', '13,000ì›');");
+			stmt.executeUpdate("insert into tickets values(6, 6, 6, 6, 6, 6, '15,000ì›', '13,000ì›');");
+			stmt.executeUpdate("insert into tickets values(7, 7, 7, 7, 7, 7, '15,000ì›', '13,000ì›');");
+			stmt.executeUpdate("insert into tickets values(8, 8, 8, 8, 8, 8, '15,000ì›', '13,000ì›');");
+			stmt.executeUpdate("insert into tickets values(9, 9, 9, 9, 9, 9, '15,000ì›', '13,000ì›');");
+			stmt.executeUpdate("insert into tickets values(10, 10, 10, 10, 10, 10, '15,000ì›', '13,000ì›');");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -902,9 +902,9 @@ class SQL {
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(sql);
-			error.setText("¿Ï·áÇß½À´Ï´Ù");
+			error.setText("ì™„ë£Œí–ˆìŠµë‹ˆë‹¤");
 		} catch (SQLException e) {
-			error.setText("SQL¹®À» ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä");
+			error.setText("SQLë¬¸ì„ ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”");
 		}
 	}
 
@@ -1058,7 +1058,7 @@ class SQL {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
-			error.setText("Àß¸ø ÀÔ·ÂÇß½À´Ï´Ù.");
+			error.setText("ì˜ëª» ì…ë ¥í–ˆìŠµë‹ˆë‹¤.");
 			e.printStackTrace();
 		}
 	}
@@ -1081,7 +1081,7 @@ class SQL {
 	}
 
 	public void MovieSearch(JTable table, JLabel error, String sql) {
-		Object[] attribute = { "¿µÈ­¸í", "»ó¿µ½Ã°£", "»ó¿µµî±Ş", "°¨µ¶¸í", "¹è¿ì¸í", "Àå¸£", "»ó¿µ½ÃÀÛÀÏ", "»ó¿µ½ÃÀÛ½Ã°£", "»ó¿µ°ü", "ÁÂ¼®¹øÈ£",};
+		Object[] attribute = { "ì˜í™”ëª…", "ìƒì˜ì‹œê°„", "ìƒì˜ë“±ê¸‰", "ê°ë…ëª…", "ë°°ìš°ëª…", "ì¥ë¥´", "ìƒì˜ì‹œì‘ì¼", "ìƒì˜ì‹œì‘ì‹œê°„", "ìƒì˜ê´€", "ì¢Œì„ë²ˆí˜¸",};
 		DefaultTableModel model = new DefaultTableModel(attribute, 0);
 
 		try {
@@ -1104,14 +1104,14 @@ class SQL {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			error.setText("Àß¸ø ÀÔ·ÂÇß½À´Ï´Ù.");
+			error.setText("ì˜ëª» ì…ë ¥í–ˆìŠµë‹ˆë‹¤.");
 		}
 
 		table.setModel(model);
 	}
 	
 	public void MovieSearch2(JTable table, JLabel error, String sql) {
-		Object[] attribute = { "¿µÈ­¸í", "»ó¿µ½Ã°£", "»ó¿µµî±Ş", "°¨µ¶¸í", "¹è¿ì¸í", "Àå¸£", "»ó¿µ½ÃÀÛÀÏ", "»ó¿µ½ÃÀÛ½Ã°£", "»ó¿µ°ü", "ÁÂ¼®¹øÈ£", "»ç¿ë°¡´É" };
+		Object[] attribute = { "ì˜í™”ëª…", "ìƒì˜ì‹œê°„", "ìƒì˜ë“±ê¸‰", "ê°ë…ëª…", "ë°°ìš°ëª…", "ì¥ë¥´", "ìƒì˜ì‹œì‘ì¼", "ìƒì˜ì‹œì‘ì‹œê°„", "ìƒì˜ê´€", "ì¢Œì„ë²ˆí˜¸", "ì‚¬ìš©ê°€ëŠ¥" };
 		DefaultTableModel model = new DefaultTableModel(attribute, 0);
 
 		try {
@@ -1135,14 +1135,14 @@ class SQL {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			error.setText("Àß¸ø ÀÔ·ÂÇß½À´Ï´Ù.");
+			error.setText("ì˜ëª» ì…ë ¥í–ˆìŠµë‹ˆë‹¤.");
 		}
 
 		table.setModel(model);
 	}
 
 	public void BookingSearch(JTable table, String sql) {
-		String[] attribute = { "¿µÈ­¸í", "»ó¿µÀÏ", "»ó¿µ°ü¹øÈ£", "ÁÂ¼®¹øÈ£", "ÆÇ¸Å°¡°İ" };
+		String[] attribute = { "ì˜í™”ëª…", "ìƒì˜ì¼", "ìƒì˜ê´€ë²ˆí˜¸", "ì¢Œì„ë²ˆí˜¸", "íŒë§¤ê°€ê²©" };
 		DefaultTableModel model = new DefaultTableModel(attribute, 0);
 
 		try {
@@ -1166,7 +1166,7 @@ class SQL {
 	}
 	
 	public void BookingSearch2(JTable table, String sql) {
-		String[] attribute = { "¿¹¸Å¹øÈ£", "°áÁ¦¹æ¹ı", "°áÁ¦»óÅÂ", "°áÁ¦±İ¾×", "È¸¿ø¾ÆÀÌµğ", "°áÁ¦ÀÏÀÚ", "¹ß±Ç¿©ºÎ", "Ç¥ÁØ°¡°İ", "ÆÇ¸Å°¡°İ", "»ó¿µÀÏÀÚ", "»ó¿µ½Ã°£", "»ó¿µ°ü¹øÈ£", "ÁÂ¼®¹øÈ£", "¿µÈ­Á¦¸ñ" };
+		String[] attribute = { "ì˜ˆë§¤ë²ˆí˜¸", "ê²°ì œë°©ë²•", "ê²°ì œìƒíƒœ", "ê²°ì œê¸ˆì•¡", "íšŒì›ì•„ì´ë””", "ê²°ì œì¼ì", "ë°œê¶Œì—¬ë¶€", "í‘œì¤€ê°€ê²©", "íŒë§¤ê°€ê²©", "ìƒì˜ì¼ì", "ìƒì˜ì‹œê°„", "ìƒì˜ê´€ë²ˆí˜¸", "ì¢Œì„ë²ˆí˜¸", "ì˜í™”ì œëª©" };
 		DefaultTableModel model = new DefaultTableModel(attribute, 0);
 
 		try {
@@ -1199,7 +1199,7 @@ class SQL {
 	}
 
 	public void BookingClickShow(JTable table, String sql) {
-		String[] attribute = { "»ó¿µÀÏ", "»ó¿µ¿äÀÏ", "»ó¿µÈ¸Â÷", "»ó¿µ½ÃÀÛ½Ã°£", "»ó¿µ°ü¹øÈ£", "ÁÂ¼®¹øÈ£", "ÁÂ¼®¼ö", "¹ß±Ç¿©ºÎ", "Ç¥ÁØ°¡°İ", "ÆÇ¸Å°¡°İ" };
+		String[] attribute = { "ìƒì˜ì¼", "ìƒì˜ìš”ì¼", "ìƒì˜íšŒì°¨", "ìƒì˜ì‹œì‘ì‹œê°„", "ìƒì˜ê´€ë²ˆí˜¸", "ì¢Œì„ë²ˆí˜¸", "ì¢Œì„ìˆ˜", "ë°œê¶Œì—¬ë¶€", "í‘œì¤€ê°€ê²©", "íŒë§¤ê°€ê²©" };
 		DefaultTableModel model = new DefaultTableModel(attribute, 0);
 		try {
 			Statement stmt = con.createStatement();
@@ -1227,7 +1227,7 @@ class SQL {
 	}
 
 	public void ExtraMoviescheduleShow(JTable table, String sql) {
-		String[] attribute = { "»ó¿µÀÏ", "»ó¿µ¿äÀÏ", "»ó¿µÈ¸Â÷", "»ó¿µ½ÃÀÛ½Ã°£", "»ó¿µ°ü¹øÈ£", "ÁÂ¼®¹øÈ£" };
+		String[] attribute = { "ìƒì˜ì¼", "ìƒì˜ìš”ì¼", "ìƒì˜íšŒì°¨", "ìƒì˜ì‹œì‘ì‹œê°„", "ìƒì˜ê´€ë²ˆí˜¸", "ì¢Œì„ë²ˆí˜¸" };
 		DefaultTableModel model = new DefaultTableModel(attribute, 0);
 		try {
 			Statement stmt = con.createStatement();

@@ -1,5 +1,3 @@
--- <관리자 기능>
--- 1. 데이터베이스 초기화
 drop table if exists tickets;
 drop table if exists movie_schedule;
 drop table if exists seats;
@@ -124,16 +122,16 @@ CREATE TABLE IF NOT EXISTS tickets (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-INSERT INTO movies VALUES(1, '닥터 스트레인지', '2시간 20분', '15세', '조민수', '서진형', '판타지', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-01-09','%Y-%m-%d'));
-INSERT INTO movies VALUES(2, '범죄도시1', '2시간 21분', '18세', '조민수', '이진형', '스릴러', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-02-09','%Y-%m-%d'));
-INSERT INTO movies VALUES(3, '범죄도시3', '2시간 22분', '12세', '최민수', '국진형', '호러', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-03-09','%Y-%m-%d'));
-INSERT INTO movies VALUES(4, '범죄도시4', '2시간 23분', '18세', '박민수', '오진형', '코미디', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-04-09','%Y-%m-%d'));
-INSERT INTO movies VALUES(5, '범죄도시5', '2시간 24분', '15세', '김민수','임진형', '호러', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-05-09','%Y-%m-%d'));
-INSERT INTO movies VALUES(6, '범죄도시6', '2시간 25분', '12세', '임민수', '김진형', '로맨스', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-06-09','%Y-%m-%d'));
-INSERT INTO movies VALUES(7, '범죄도시6', '2시간 26분', '전체이용가', '오민수', '박진형', '판타지', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-07-09','%Y-%m-%d'));
-INSERT INTO movies VALUES(8, '범죄도시7', '2시간 27분', '15세', '국민수', '최진형', '액션', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-08-09','%Y-%m-%d'));
-INSERT INTO movies VALUES(9, '범죄도시8', '2시간 28분', '18세', '이민수', '조진형', '스릴러', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-09-09','%Y-%m-%d'));
-INSERT INTO movies VALUES(10, '범죄도시2', '2시간 29분', '15세', '서민수', '리진형', '액션', '어쩔티비 안궁티비 안물티비', STR_TO_DATE('2021-10-09','%Y-%m-%d'));
+INSERT INTO movies VALUES(1, '닥터 스트레인지', '2시간 20분', '15세', '조민수', '서진형', '판타지', '영화설명설명', STR_TO_DATE('2021-01-09','%Y-%m-%d'));
+INSERT INTO movies VALUES(2, '범죄도시1', '2시간 21분', '18세', '조민수', '이진형', '스릴러', '영화설명설명', STR_TO_DATE('2021-02-09','%Y-%m-%d'));
+INSERT INTO movies VALUES(3, '범죄도시3', '2시간 22분', '12세', '최민수', '국진형', '호러', '영화설명설명', STR_TO_DATE('2021-03-09','%Y-%m-%d'));
+INSERT INTO movies VALUES(4, '범죄도시4', '2시간 23분', '18세', '박민수', '오진형', '코미디', '영화설명설명', STR_TO_DATE('2021-04-09','%Y-%m-%d'));
+INSERT INTO movies VALUES(5, '범죄도시5', '2시간 24분', '15세', '김민수','임진형', '호러', '영화설명설명', STR_TO_DATE('2021-05-09','%Y-%m-%d'));
+INSERT INTO movies VALUES(6, '범죄도시6', '2시간 25분', '12세', '임민수', '김진형', '로맨스', '영화설명설명', STR_TO_DATE('2021-06-09','%Y-%m-%d'));
+INSERT INTO movies VALUES(7, '범죄도시6', '2시간 26분', '전체이용가', '오민수', '박진형', '판타지', '영화설명설명', STR_TO_DATE('2021-07-09','%Y-%m-%d'));
+INSERT INTO movies VALUES(8, '범죄도시7', '2시간 27분', '15세', '국민수', '최진형', '액션', '영화설명설명', STR_TO_DATE('2021-08-09','%Y-%m-%d'));
+INSERT INTO movies VALUES(9, '범죄도시8', '2시간 28분', '18세', '이민수', '조진형', '스릴러', '영화설명설명', STR_TO_DATE('2021-09-09','%Y-%m-%d'));
+INSERT INTO movies VALUES(10, '범죄도시2', '2시간 29분', '15세', '서민수', '리진형', '액션', '영화설명설명', STR_TO_DATE('2021-10-09','%Y-%m-%d'));
 
 insert into members values (1, 'Brooke', '735-214-8098', 'bmarlon0@constantcontact.com');
 insert into members values (2, 'Martita', '964-716-5566', 'mbusk1@printfriendly.com');
@@ -146,16 +144,16 @@ insert into members values (8, 'Barret', '432-886-2071', 'bleathwood7@cisco.com'
 insert into members values (9, 'Ranique', '445-800-0015', 'rculter8@scientificamerican.com');
 insert into members values (10, 'Jaclyn', '585-410-7043', 'jbouchier9@unesco.org');
 
-insert into screens values (1, 500, 1);
-insert into screens values (2, 250, 1);
-insert into screens values (3, 500, 1);
-insert into screens values (4, 650, 1);
-insert into screens values (5, 200, 0);
-insert into screens values (6, 155, 1);
-insert into screens values (7, 140, 1);
-insert into screens values (8, 124, 1);
-insert into screens values (9, 450, 1);
-insert into screens values (10, 123, 1);
+insert into screens values (1, 2, 1);
+insert into screens values (2, 3, 1);
+insert into screens values (3, 2, 1);
+insert into screens values (4, 3, 1);
+insert into screens values (5, 2, 0);
+insert into screens values (6, 2, 1);
+insert into screens values (7, 2, 1);
+insert into screens values (8, 2, 1);
+insert into screens values (9, 1, 1);
+insert into screens values (10, 1, 1);
 
 insert into seats values (1, 1, 0);
 insert into seats values (2, 2, 0);
@@ -177,7 +175,6 @@ insert into seats values (17, 7, 1);
 insert into seats values (18, 8, 1);
 insert into seats values (19, 2, 1);
 insert into seats values (20, 4, 1);
-
 
 insert into movie_schedule values(1, 1, 1, STR_TO_DATE('2021-01-09','%Y-%m-%d'), '월요일', '1회차', '09시 15분');
 insert into movie_schedule values(2, 2, 2, STR_TO_DATE('2021-02-09','%Y-%m-%d'), '화요일', '2회차', '10시 15분');
@@ -212,6 +209,3 @@ insert into tickets values(7, 7, 7, 7, 7, 1, '14,000원', '14,000원');
 insert into tickets values(8, 8, 8, 8, 8, 1, '13,000원', '11,000원');
 insert into tickets values(9, 9, 9, 9, 9, 1, '14,000원', '14,000원');
 insert into tickets values(10, 10, 10, 10, 10, 1, '14,000원', '11,000원');
-
--- 2. 데이터베이스에 포함된 모든 테이블에 대한 입력/삭제/변경 기능 (단, 삭제/변경은 '조건식' 입력받아서 삭제/변경하는 방식으로 구현)
--- 3. 전체 테이블 보기: 모든 테이블 내용 보여주는 기능
