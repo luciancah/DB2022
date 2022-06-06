@@ -19,7 +19,7 @@ class Title extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(2000, 2000);
-		setTitle("18011560/조민수");
+		setTitle("18011560/조민수, 18011480/이진형");
 
 		button[0] = new JButton("관리자");
 		button[0].setSize(300, 300);
