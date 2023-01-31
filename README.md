@@ -27,7 +27,8 @@
   
 ## 구현 기능
 ### ERD
-![image](https://user-images.githubusercontent.com/40791869/215779482-77b0536b-6265-4cff-bbba-49643593a389.png)
+![image](https://user-images.githubusercontent.com/40791869/215787336-358d0c85-270d-494a-96f4-64f65df247e7.png)
+
 
 ### GUI
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/40791869/215779827-437e57bc-12e8-4967-a491-bd722df6dca1.gif)
