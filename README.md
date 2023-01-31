@@ -27,10 +27,10 @@
   
 ## 구현 기능
 ### ERD
-    ![image](https://user-images.githubusercontent.com/40791869/215779482-77b0536b-6265-4cff-bbba-49643593a389.png)
+![image](https://user-images.githubusercontent.com/40791869/215779482-77b0536b-6265-4cff-bbba-49643593a389.png)
 
 ### GUI
-    ![ezgif com-gif-maker](https://user-images.githubusercontent.com/40791869/215779827-437e57bc-12e8-4967-a491-bd722df6dca1.gif)
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/40791869/215779827-437e57bc-12e8-4967-a491-bd722df6dca1.gif)
     
   - 요구 조건
     1. 영화에 대해서는 영화번호, 영화명, 상영시간, 상영등급, 감독명, 배우명, 장르, 영화소개 및 개봉일 정보를 저장한다. 모든 영화는 1개 이상에서 4개 이하의 상영일정을 가진다.
